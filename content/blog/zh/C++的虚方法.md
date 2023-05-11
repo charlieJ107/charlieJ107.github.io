@@ -25,7 +25,7 @@ description: "关键字 virtual 经常定义在C++类中的方法上. 这个关�
 
 来看个例子，这个例子来自*C++ Primer Plus*
 
-```c++
+```cpp
 /***************************************
  * File: brass.h
  * Bank account classes
@@ -59,7 +59,7 @@ public:
 
 于此同时, 有一个名为`BalencePlus`的类继承于这个基类
 
-```c++
+```cpp
 //Brass Plus Account Class
 class BrassPlus : public Brass
 {

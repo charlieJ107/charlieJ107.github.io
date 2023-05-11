@@ -12,7 +12,7 @@ description: "给你二叉树的根节点 root ，返回它节点值的 前序 �
 <!--more-->
 ### 简单递归
 
-```c++
+```cpp
 /*
  * @lc app=leetcode.cn id=144 lang=cpp
  *
@@ -65,7 +65,7 @@ public:
 
 注意这里合并两个`vector`的方法：
 
-```c++
+```cpp
 result.insert(result.end(), //place you want to insert at
               leftResult.begin(), 
               //An overload version with two iterator of vector
@@ -79,7 +79,7 @@ result.insert(result.end(), //place you want to insert at
 
 迭代使用的是栈，其依据是：反正对于每个子树，都是先根，再左，再右，那就把字数压进栈里，对于栈顶的元素，输出根，再把栈顶的元素左右子树分别压入栈。因为先输出左边，后进先出（FILO）的栈需要先压入右子树，再压入左子树。
 
-```c++
+```cpp
 vector<int> preorderTraversal(TreeNode *root)
     {
         vector<int> result;

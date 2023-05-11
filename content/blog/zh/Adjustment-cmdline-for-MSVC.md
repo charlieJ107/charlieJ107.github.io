@@ -16,7 +16,7 @@ cmdline是一个轻量级的c++命令行参数解析工具，全部源码只有�
 
 使用cmdline的时候，在gcc下编译都正常，但在MSVC环境下，是不能编译的，因为缺少头文件`cxxabi.h`,这个头文件MSVC是没有的, 因此不能直接被MSVC编译进去。而`#include <cxxabi.h>`中的函数只有一处被用到: 
 
-```c++
+```cpp
 static inline std::string demangle(const std::string& name)
 {
     int status = 0;
@@ -44,7 +44,7 @@ MSVC为什么没有提供`abi::__cxa_demangle`类似的功能呢？因为MSVC编
 
 首先是头文件部分, 仅在使用GCC时加入这个头文件:
 
-```c++
+```cpp
 #ifdef __GNUC__
 #include <cxxabi.h>
 #endif // __GNUC__
@@ -52,7 +52,7 @@ MSVC为什么没有提供`abi::__cxa_demangle`类似的功能呢？因为MSVC编
 
 其次是针对这个函数, 我们在使用GCC时保留原逻辑, 并在使用MSVC时直接返回原名. 对于其他的编译器, 则直接报错, 让用户自己实现一个demangle(无慈悲).
 
-```c++
+```cpp
 static inline std::string demangle(const std::string& name)
 {
 #ifdef _MSC_VER

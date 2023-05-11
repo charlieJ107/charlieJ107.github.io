@@ -12,7 +12,7 @@ description: 今天做题的时候用到了`std::vector`, 这里记录一下，�
 
 根据C++standard，vector是以dynamic array实现的。在使用之前需要包含头文件`<vector>`
 
-```c++
+```cpp
 #include <vector>
 ```
 
@@ -22,7 +22,7 @@ Vector本身效率很高，但代价是需要分配出更大的空间。所以�
 
 想要获得当前vector内的元素个数，可以使用`size()`方法。
 
-```c++
+```cpp
 //std::vector<int> coll
 coll.size()
 ```
@@ -35,7 +35,7 @@ coll.size()
 
 ​	你可以使用`reserve()`来保留适当的容量以避免因容量不够而重新分配内存：
 
-```c++
+```cpp
 std::vector<int> v;
 v.reserve(80);//reserve memroy for 80 elements
 ```
@@ -100,7 +100,7 @@ v.reserve(80);//reserve memroy for 80 elements
 
 所以如果你想移除“与某个值相等”的元素，虽然vector没有直接提供，但是可以通过其他一些辅助函数来实现。比如，你可以通过下面这个语句将所有值为val的元素移除
 
-```c++
+```cpp
 #include<algorithm>//提供remove函数的声明
 std::vector<elem> coll;
 ...
@@ -110,7 +110,7 @@ coll.erase(remove(coll.begin(), coll.end(), val), coll.end());
 
 如果你想只删除值一样的第一个元素：
 
-```c++
+```cpp
 std::vector<elem> coll;
 ...
 std::vector<elem>::iterator pos;

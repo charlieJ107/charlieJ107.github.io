@@ -35,20 +35,20 @@ description: "我真的不知道我之前写的那个迭代器的总结去哪里
 
 `sort()` 接受指向容器第一个元素的迭代器和指向超尾的迭代器作为参数. 我们现在假设有一个 `double` 型的数组叫 `Receipts` , 我们拿它作为例子, 进行升序排序: 
 
-```c++
+```cpp
 const int SIZE = 100;
 double Recipts[SIZE];
 ```
 
 现在找出你想传进去的参数, 分别是 `&Reciptes[0]` 和 `&Reciptes[SIZE]` , 因此你可以按照这个函数的调用来对它进行排序: 
 
-```c++
+```cpp
 sort(Reciptes, Reciptes[SIZE]);
 ```
 
 当然, 你也可以用其他的STL函数, 比如 `copy()` , 甚至你可以把你的数组`copy()`到屏幕上, 只需要把它copy给`ostream_iterator` 就行. 
 
-```c++
+```cpp
 #include <iterator>
 ostream_iterator<int, char> out_iter(cout, " ");
 copy(dice.begin(), dice.end(), out_iter);
