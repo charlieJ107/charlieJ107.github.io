@@ -1,0 +1,119 @@
+---
+import { Image } from "astro:assets";
+import LanguagePicker from "./LanguagePicker.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import profileImg from "../../images/profile.jpg";
+import coffeeImg from "../../images/icons/coffee.svg";
+import githubImg from "../../images/icons/github.svg";
+import rssImg from "../../images/icons/rss.svg";
+// import twitterImg from "../../images/icons/twitter.svg";
+import linkedinImg from "../../images/icons/linkedin.svg";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const menuBackgroundStyle = Astro
+---
+
+<div class="drawer-side bg-base-200">
+    <label for="my-drawer" class="drawer-overlay bg-base-200"></label>
+    <div class="menu flex flex-col flex-nowrap p-4 overflow-y-auto w-[20rem] bg-base-200 text-base-content" >
+        <div class="w-fit">
+            <a href=`/${lang}/`>
+                <div class="avatar transition ease-in-out w-1/2 hover:scale-[102%] block m-auto mt-3 mb-6 h-36" >
+                    <div>
+                        <Image
+                            class="mask mask-circle"
+                            width={300}
+                            height={300}
+                            src={profileImg}
+                            alt="Profile image"
+                        />
+                    </div>
+                </div>
+            </a>
+        </div>
+        <ul class="grow shrink">
+            <!-- Sidebar content here -->
+            <li>
+                <a id="home" href=`/${lang}`>
+                    {t("layout.sideBar.home")}
+                </a>
+            </li>
+            <li>
+                <a id="projects" href=`/${lang}/projects`>
+                    {t("layout.sideBar.projects")}
+                    </a>
+            </li>
+            <li>
+                <a id="services" href=`/${lang}/services`>
+                    {t("layout.sideBar.services")}
+                </a>
+            </li>
+            <!-- <li><a id="store" href=`/${lang}/store`>{t("layout.sideBar.store")}</a></li> -->
+            <li>
+                <a id="blog" href=`/${lang}/blog/`>
+                    {t("layout.sideBar.blog")}
+                </a>
+            </li>
+            <li>
+                <a id="cv" href=`/${lang}/cv`>
+                    {t("layout.sideBar.cv")}
+                </a>
+            </li>
+            <li>
+                <a id="about" href=`/${lang}/about`>{t("layout.sideBar.about")}</a>
+            </li>
+            <LanguagePicker />
+        </ul>
+        <div class="social-icons px-4 my-2 flex self-center">
+            <a href="https://charlieJ107.github.io/support-my-work/" target="_blank" class="mx-3" aria-label="Support my work" title="Support my work">
+                <Image src={coffeeImg} width="24" height="24" alt="Buy me a coffee" />
+            </a>
+            <a href="https://github.com/charlieJ107" target="_blank" class="mx-3" aria-label="Github" title="Github">
+                <Image src={githubImg } width="24" height="24" alt="Github" />
+            </a>
+            <!-- <a href="https://twitter.com" target="_blank" class="mx-3" aria-label="Twitter" title="Twitter"> -->
+                <!-- <Image src={twitterImg} width="24" height="24" alt="Twitter" /> -->
+            <!-- </a>  -->
+            <a href="https://www.linkedin.com/in/zhuoling-jiang-19b996173/" target="_blank" class="mx-3" aria-label="Linkedin" title="Linkedin">
+                <Image src={linkedinImg} width="24" height="24" alt="Linkedin" />
+            </a>
+            <a href="/rss.xml" target="_blank" class="mx-3" aria-label="RSS Feed" title="RSS Feed">
+                <Image src={rssImg} width="24" height="24" alt="RSS Feed" />
+            </a>
+        </div>
+    </div>
+</div>
+<!-- <script>
+    const homeLink = document.getElementById("home");
+    const projectsLink = document.getElementById("projects");
+    const servicesLink = document.getElementById("services");
+    const storeLink = document.getElementById("store");
+    const blogLink = document.getElementById("blog");
+    const cvLink = document.getElementById("cv");
+    const aboutLink = document.getElementById("about");
+
+    var isHome = true;
+
+    const url = window.location.href;
+
+    const pages = [
+        projectsLink,
+        servicesLink,
+        storeLink,
+        blogLink,
+        cvLink,
+        aboutLink,
+    ];
+
+    const activeClass = "bg-base-300"; // For primary color replace with `active` class
+
+    pages.forEach((elem) => {
+        if (elem?.id && url.includes(elem.id)) {
+            isHome = false;
+            elem?.classList.add(activeClass);
+        }
+    });
+    if (isHome) {
+        homeLink?.classList.add(activeClass);
+    }
+</script> -->

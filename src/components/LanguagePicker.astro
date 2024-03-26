@@ -1,0 +1,27 @@
+---
+import { Image } from "astro:assets";
+import { languages } from "../i18n/ui";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import i18n_logo from "../../images/icons/i18n.svg";
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<li class="dropdown block">
+  <label tabindex="0"
+    >
+    <Image src={i18n_logo} alt="Change Languages" />
+    {t("layout.sideBar.language")}
+  </label>
+  <ul
+    tabindex="0"
+    class="dropdown-content menu p-2 shadow bg-base-100 rouded-box w-52"
+  >
+    {
+      Object.entries(languages).map(([lang, label]) => (
+        <li>
+          <a href={`/${lang}/`}> {label}</a>
+        </li>
+      ))
+    }
+  </ul>
+</li>

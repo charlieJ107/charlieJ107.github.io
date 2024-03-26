@@ -1,0 +1,76 @@
+{
+    "app": {
+        "title": "Zhuoling.Space",
+        "description": "Zhuoling's personal website"
+    },
+    "layout": {
+        "post": {
+            "last_update_on": "Last update on"
+        },
+        "sideBar": {
+            "home": "Home",
+            "projects": "Projects",
+            "services": "Services",
+            "store": "Store",
+            "blog": "Blog",
+            "cv": "CV",
+            "about": "About",
+            "contact": "Contact",
+            "language": "Language"
+        }
+    },
+    "home": {
+        "title": "Zhuoling.Space",
+        "projects": "Latest Updated Projects",
+        "blog": "Latest from Blog"
+    },
+    "resume": {
+        "title": "Curriculum Vitae",
+        "profile": "Profile",
+        "education": "Education",
+        "experience": "Experience",
+        "projects": "Projects",
+        "awards": "Awards",
+        "publications": "Publications",
+        "skills": "Skills",
+        "certificates": "Certificates",
+        "languages": "Languages",
+        "interests": "Interests",
+        "references": "References"
+    },
+    "projects": {
+        "title": "Projects",
+        "groups": {
+            "pinned": "Pinned",
+            "other": "Other",
+            "personal": "Personal",
+            "school": "School",
+            "work": "Work"
+        }
+    },
+    "services": {
+        "title": "Services",
+        "groups": {
+            "pinned": "Pinned",
+            "other": "Other",
+            "storage": "Storage"
+        }
+    },
+    "blog": {
+        "title": "Blog",
+        "sorry": "Sorry",
+        "no_post": "There are no blog posts to show at the moment. Check back later!",
+        "resent_posts": "Recent Posts",
+        "older_posts": "Older Posts"
+    },
+    "about": {
+        "title": "About",
+        "description": "Zhuoling's personal website"
+    },
+    "404": {
+        "title": "404",
+        "message": "The page you're looking for couldn't be found.",
+        "back": "Back",
+        "home": "Home"
+    }
+}

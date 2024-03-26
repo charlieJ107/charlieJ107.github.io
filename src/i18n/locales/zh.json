@@ -1,0 +1,76 @@
+{
+    "app": {
+        "title": "Zhuoling.Space",
+        "description": "老蒋的个人网站"
+    },
+    "layout": {
+        "post": {
+            "last_update_on": "最后更新于"
+        },
+        "sideBar": {
+            "home": "首页",
+            "projects": "项目",
+            "services": "服务",
+            "store": "商店",
+            "blog": "博客",
+            "cv": "简历",
+            "about": "关于",
+            "contact": "联系",
+            "language": "语言"
+        }
+    },
+    "home": {
+        "title": "Zhuoling.Space",
+        "projects": "项目更新",
+        "blog": "博客文章"
+    },
+    "resume": {
+        "title": "简历",
+        "profile": "个人信息",
+        "education": "教育经历",
+        "experience": "工作 / 实习",
+        "projects": "项目经历",
+        "awards": "获奖经历",
+        "publications": "出版物",
+        "skills": "技能",
+        "certificates": "证书",
+        "languages": "语言",
+        "interests": "兴趣爱好",
+        "references": "推荐人"
+    },
+    "projects": {
+        "title": "项目",
+        "groups": {
+            "pinned": "已固定",
+            "other": "其他",
+            "personal": "个人",
+            "school": "课业",
+            "work": "工作"
+        }
+    },
+    "services": {
+        "title": "服务",
+        "groups":{
+            "pinned": "已固定",
+            "other": "其他",
+            "storage": "存储"
+        }
+    },
+    "blog": {
+        "title": "博客",
+        "sorry": "抱歉",
+        "no_post": "目前没有文章可以显示，晚点再来看看吧！",
+        "resent_posts": "最近的文章",
+        "older_posts": "更早的文章"
+    },
+    "about":{
+        "title": "关于",
+        "description": "老蒋，你得对自己有点B数，不然怎么能让别人对你有B数呢？"
+    },
+    "404": {
+        "title": "404",
+        "message": "您所访问的页面不存在",
+        "back": "返回",
+        "home": "返回首页"
+    }
+}
