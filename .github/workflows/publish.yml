@@ -48,8 +48,8 @@ jobs:
       - name: Copy Content
         run: |
           mkdir -p src/content
-          ls src
-          cp -r content/* src/content/
+          cp -r content/content/* src/content/
+          cp -r content/images images
           rm -rf content
 
       - name: Detect package manager
