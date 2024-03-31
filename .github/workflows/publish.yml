@@ -47,9 +47,7 @@ jobs:
       
       - name: Copy Content
         run: |
-          if [ ! -d "content" ]; then
-             mkdir -p src/content
-          fi
+          mkdir -p src/content
           ls src
           cp -r content/* src/content/
           rm -rf content
