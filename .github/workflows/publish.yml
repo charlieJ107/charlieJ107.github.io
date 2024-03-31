@@ -50,6 +50,7 @@ jobs:
           if [ ! -d "content" ]; then
              mkdir -p src/content
           fi
+          ls src
           cp -r content/* src/content/
           rm -rf content
 
