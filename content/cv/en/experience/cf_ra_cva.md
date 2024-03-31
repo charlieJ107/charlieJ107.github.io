@@ -1,7 +1,7 @@
 ---
 type: "experience"
 title: "Cardiff University"
-rols: "Research Assistant"
+role: "Research Assistant"
 location: "Cardiff UK"
 startDate: "2023-09"
 ---
