@@ -1,7 +1,7 @@
 ---
 type: "experience"
 title: "英特尔亚太研发有限公司"
-role: "实习-机器学习平台"
+role: "研发实习生"
 subtitle: "机器学习性能表现(MLP)"
 location: "上海"
 startDate: "2021-06"

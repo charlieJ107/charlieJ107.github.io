@@ -1,7 +1,7 @@
 ---
 type: "experience"
 title: "北京自然选择教育科技有限公司"
-role: "地区负责人"
+role: "区域市场专员"
 location: "福建、广西"
 startDate: "2018-11"
 endDate: "2020-02"
