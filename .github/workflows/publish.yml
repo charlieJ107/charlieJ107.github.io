@@ -47,9 +47,8 @@ jobs:
       
       - name: Copy Content
         run: |
-          mkdir -p src/content
-          cp -r content/content/* src/content/
-          cp -r content/images images
+          cp -r content/content src/content/
+          cp -r content/images src/images
           rm -rf content
           ls -l src/content/
 

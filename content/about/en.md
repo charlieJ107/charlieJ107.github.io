@@ -1,4 +1,4 @@
-   Student, Engineer, Developer, Friend, Lover, Male adult Homo sapiens.
+   Student, Engineer, Developer, Friend, Lover, Male Adult Homo Sapiens.
 
    Contact: charlie_j107@outlook.com
 

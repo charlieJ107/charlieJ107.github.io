@@ -1,6 +1,6 @@
 ---
 title: Cloudreve
-heroImage: /images/services/cloudreve_logo.png
+heroImage: "../../../images/services/cloudreve_logo.png"
 url: https://cloudreve.vankyle.cn
 tags: [cloud, storage]
 group: "pinned"
