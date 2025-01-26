@@ -50,7 +50,7 @@ jobs:
           cp -r content/content src/content/
           cp -r content/images src/images
           rm -rf content
-          ls -l src/content/
+          tree src
 
       - name: Detect package manager
         id: detect-package-manager
