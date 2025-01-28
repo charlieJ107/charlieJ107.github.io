@@ -44,31 +44,31 @@ Hashing maps an input of any length to a fixed-length output with the following 
 
 ### Objective: Optimizing String Matching with Hashing
 
-By matching strings based on their hash values, given a pattern string of length \( n \), we can take substrings of the matching string of length \( n \), compute their hashes, and compare with the pattern hash. With high probability, a hash collision implies the substrings match the pattern. However, brute-forcing all combinations is inefficient, so optimization is required.
+By matching strings based on their hash values, given a pattern string of length $ n $, we can take substrings of the matching string of length $ n $, compute their hashes, and compare with the pattern hash. With high probability, a hash collision implies the substrings match the pattern. However, brute-forcing all combinations is inefficient, so optimization is required.
 
-Using a rolling hash, a sliding window of length \( n \) calculates the hash of each substring by removing the effect of the old character and adding the effect of the new character, significantly reducing computational complexity.
+Using a rolling hash, a sliding window of length $n$ calculates the hash of each substring by removing the effect of the old character and adding the effect of the new character, significantly reducing computational complexity.
 
 #### Rolling Hash Formula
 
-Let the substring within the window before sliding be \( s_{i...i+n} \). If \( M \) is a prime polynomial, the hash is:
+Let the substring within the window before sliding be $ s_{i...i+n} $. If $ M $ is a prime polynomial, the hash is:
 
-\[
+$$
 \text{hash}(s_{i...i+n}) = \left(s_i \cdot a^n + s_{i+1} \cdot a^{n-1} + \dots + s_{i+n-1} \cdot a + s_{i+n}\right) \bmod M
-\]
+$$
 
-After sliding, the hash for \( s_{i+1...i+n+1} \) is:
+After sliding, the hash for $ s_{i+1...i+n+1} $ is:
 
-\[
+$$
 \text{hash}(s_{i+1...i+n+1}) = \left(a \cdot \text{hash}(s_{i...i+n}) - s_i \cdot a^n + s_{i+n+1}\right) \bmod M
-\]
+$$
 
 Thus, the recurrence relation is:
 
-\[
+$$
 \text{hash}(s_{i+1...i+n+1}) = \left(a \cdot \text{hash}(s_{i...i+n}) - s_i \cdot a^n + s_{i+n+1}\right) \bmod M
-\]
+$$
 
-This allows \( O(1) \) computation for the next hash value, resulting in \( O(m + n) \) complexity for \( m \) substrings.
+This allows $ O(1) $ computation for the next hash value, resulting in $ O(m + n) $ complexity for $ m $ substrings.
 
 ### Rabin-Karp Algorithm
 
@@ -76,15 +76,15 @@ The Rabin-Karp algorithm implements string matching using rolling hash. It relie
 
 #### Rabin Fingerprint
 
-The Rabin fingerprint is a polynomial hash on a finite field \( GF(2) \), e.g., \( f(x) = x^3 + x^2 + 1 \), represented as \( 1101 \) in binary.
+The Rabin fingerprint is a polynomial hash on a finite field $ GF(2) $, e.g., $ f(x) = x^3 + x^2 + 1 $, represented as $ 1101 $ in binary.
 
-Addition and subtraction are XOR operations, simplifying computation by avoiding carry-over concerns. However, multiplication and division require \( O(k) \) complexity (where \( k \) is the polynomial's degree).
+Addition and subtraction are XOR operations, simplifying computation by avoiding carry-over concerns. However, multiplication and division require $ O(k) $ complexity (where $ k $ is the polynomial's degree).
 
 ---
 
 ### Implementation Example
 
-For a polynomial \( M(x) \) of degree \( 64 \):
+For a polynomial $ M(x) $ of degree $ 64 $:
 
 ```cpp
 uint64_t poly = 0xbfe6b8a5bf378d83LL;
@@ -92,14 +92,14 @@ uint64_t poly = 0xbfe6b8a5bf378d83LL;
 
 The recurrence relation is:
 
-\[
+$$
 H = \left(a(x) \cdot H_\text{old} - s_i \cdot a^n(x) + s_{i+n}\right) \bmod M(x)
-\]
+$$
 
 Key optimizations include:
 
-1. **Multiplication \( a(x) \cdot H_\text{old} \)**: Precompute terms involving \( a(x) \).
-2. **Efficient Modulo Operations**: Precompute values for modular reduction using \( g(x) \), simplifying modulo operations.
+1. **Multiplication $ a(x) \cdot H_\text{old} $**: Precompute terms involving $ a(x) $.
+2. **Efficient Modulo Operations**: Precompute values for modular reduction using $ g(x) $, simplifying modulo operations.
 
 ---
 
