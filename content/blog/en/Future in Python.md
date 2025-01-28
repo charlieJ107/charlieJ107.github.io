@@ -56,7 +56,7 @@ In Python's `concurrent.futures` module, a `Future` is an object that represents
 
 The most straightforward way is to call `Future.result()`, which blocks the current thread until the task completes and returns the result.
 
-``python
+```python
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -78,7 +78,7 @@ with ThreadPoolExecutor() as executor: future = executor.
 
     print(result)
 
-``
+```
 
 In this example, ``future.result()`` blocks the current thread until the task completes, returning ``"Task completed!"``.
 
@@ -86,7 +86,7 @@ In this example, ``future.result()`` blocks the current thread until the task co
 
 You can check for task completion non-blockingly with the ``done()`` method.
 
-``python
+```python
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -118,7 +118,7 @@ In this example, the program will keep checking for task completion without bloc
 
 If you have multiple `Futures`, you can use `concurrent.futures.as_completed()` to handle the completion of each task in turn. It will return `Future` in the order in which the tasks were completed.
 
-``python
+```python
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -140,7 +140,7 @@ with ThreadPoolExecutor() as executor:
 
         print(future.result())
 
-``
+```
 
 In this example, `as_completed(futures)` returns a generator that returns `Future` in the order in which the tasks were completed, without having to wait for all of them to complete.
 
@@ -148,7 +148,7 @@ In this example, `as_completed(futures)` returns a generator that returns `Futur
 
 ``concurrent.futures.wait()`` allows you to wait for multiple ``Futures`` and sort them according to whether they are completed or not.
 
-``python
+```python
 
 from concurrent.futures import ThreadPoolExecutor, wait
 
@@ -182,7 +182,7 @@ In this example, `wait()` returns two collections: `Future` for completed tasks 
 
 You can set the `timeout` parameter in the `result()` or `exception()` method to prevent the application from blocking for a long time waiting for the task to complete. When it times out, it throws `concurrent.futures.TimeoutError`.
 
-``python
+```python
 
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
 
@@ -210,7 +210,7 @@ with ThreadPoolExecutor() as executor: future = executor.
 
         print("The task did not complete in the given time.")
 
-``
+```
 
 In this example, the task took 2 seconds to complete, but we only waited 1 second, so a ``TimeoutError`` is thrown.
 
@@ -226,7 +226,7 @@ In Python, if you have an array of `Futures` (i.e., multiple `Future` objects), 
 
 `concurrent.futures.wait()` blocks the current thread until all `Futures` have completed. When they're done, you can iterate through the `Futures` and extract the results.
 
-``python
+```python
 
 from concurrent.futures import ThreadPoolExecutor, wait
 
@@ -254,7 +254,7 @@ with ThreadPoolExecutor() as executor: # Create a thread pool.
 
     print("Results:", results)
 
-``
+```
 
 #### Description:
 
@@ -266,7 +266,7 @@ with ThreadPoolExecutor() as executor: # Create a thread pool.
 
 `concurrent.futures.as_completed()` returns a generator that returns `Futures` in the order in which the tasks were completed. You can take the results from the generator in order and collect them into an array.
 
-``python
+```python
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -290,7 +290,7 @@ with ThreadPoolExecutor() as executor.
 
     print("Results:", results)
 
-``
+```
 
 #### Description:
 
@@ -320,7 +320,7 @@ In Python, you can use `threading.Lock` to ensure that only one thread can write
 
 #### Example code:
 
-``python
+```python
 
 import csv
 
@@ -376,7 +376,7 @@ with ThreadPoolExecutor() as executor:
 
         write_to_csv('output.csv', result) # Write the result of the process to csv
 
-``
+```
 
 #### Explanation:
 
@@ -392,7 +392,7 @@ Another way to avoid multiple threads manipulating the file at the same time is 
 
 #### Example code:
 
-``python
+```python
 
 import csv
 
@@ -474,7 +474,7 @@ with ThreadPoolExecutor() as executor:
 
     writer_thread.join()
 
-``
+```
 
 #### Explanation:
 
@@ -490,7 +490,7 @@ If you are working with large-scale data and need more complex data processing a
 
 #### Example code:
 
-``python
+```python
 
 import pandas as pd
 
@@ -538,7 +538,7 @@ df.to_csv('output.csv', index=False)
 
 print("All results written to output.csv")
 
-``
+```
 
 #### Explanation:
 
