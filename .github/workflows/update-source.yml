@@ -1,0 +1,31 @@
+name: Update Parent Source Repository
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  update-source:
+    name: Update Source
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          repository: charlieJ107/www.zhuoling.space
+          submodules: "recursive"
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Update submodule pointer
+        run: |
+          git submodule update --remote src/content
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git add src/content
+          git commit -m "chore: update src/content submodule ${{ github.sha }}" || echo "No changes to commit"
+          git push origin master
