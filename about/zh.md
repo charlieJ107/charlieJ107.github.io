@@ -2,6 +2,6 @@
 
    **联系**
 
-   邮箱: [charlie_j107@outlook.com](mailto:charlie_j107@outlook.com)
+   邮箱: [zhuoling@vankyle.mozmail.com](mailto:zhuoling@vankyle.mozmail.com)
 
    感谢每一个陪伴和关注的人
