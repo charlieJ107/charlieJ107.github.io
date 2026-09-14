@@ -1,4 +1,5 @@
 ---
+draft: false
 title: '[Repost] Ubuntu 安装 VirtualBox 启用安全启动的方案'
 date: 2020-05-16
 category: 拿来主义

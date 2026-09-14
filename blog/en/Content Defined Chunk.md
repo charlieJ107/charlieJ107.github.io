@@ -1,4 +1,5 @@
 ---
+draft: false
 title: "Content Defined Chunk (CDC)"
 description: "Under the hood of CDC" 
 date: "2023-05-24" # The date of the post fist published.

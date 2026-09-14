@@ -1,4 +1,5 @@
 ---
+draft: false
 title: c++:改造cmdline用于MSVC下的命令行参数解析
 category: 拿来主义
 description: "cmdline是一个轻量级的c++命令行参数解析工具，全部源码只有一个cmdline.h头文件，使用起来非常方便，关于如何使用它，不是本文讨论的重点，本文要说的是如何解决cmdline在MSVC下不能编译的问题。"

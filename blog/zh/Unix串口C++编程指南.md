@@ -1,4 +1,5 @@
 ---
+draft: false
 title: "配置UNIX串口的C++编程指南"
 description: "在本指南中，我们将介绍如何使用C++和原生的termios库来配置和控制UNIX系统上的串口。我们将讨论如何打开串口设备、配置串口参数以及读写串口数据。" 
 date: "2023-06-03" # The date of the post fist published.

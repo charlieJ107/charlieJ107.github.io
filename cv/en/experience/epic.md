@@ -1,4 +1,5 @@
 ---
+draft: false
 type: "experience"
 title: "Beijing EPIK Education Technology Co., Ltd."
 role: "Regional Director"

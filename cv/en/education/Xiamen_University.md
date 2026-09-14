@@ -1,4 +1,5 @@
 ---
+draft: false
 type: "education"
 title: "Xiamen University"
 subtitle: "Information Science and Technology"

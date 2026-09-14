@@ -1,4 +1,5 @@
 ---
+draft: false
 title: "Python并发中的Future"
 description: "在 Python 的 `concurrent.futures` 模块中，`Future` 是一种对象，用于表示异步操作的结果。你可以将其视为一个占位符，用于在某个任务执行完成之前存储任务的结果。`Future` 对象允许你以非阻塞的方式提交任务，并在将来检查任务的状态、获取结果，或等待任务完成。" 
 date: "2024-5-13" # The date of the post fist published.

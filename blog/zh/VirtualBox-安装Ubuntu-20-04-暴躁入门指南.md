@@ -1,4 +1,5 @@
 ---
+draft: false
 title: VirtualBox 安装Ubuntu 20.04 暴躁入门指南
 date: 2021-07-20 21:47:37
 category: 少说两句

@@ -1,4 +1,5 @@
 ---
+draft: false
 title: 'Hyper-V 的增强会话能不能自己开?'
 date: 2020-05-16
 category: 少说两句

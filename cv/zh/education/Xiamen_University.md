@@ -1,4 +1,5 @@
 ---
+draft: false
 type: "education"
 title: "厦门大学"
 subtitle: "信息学院 本科"

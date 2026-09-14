@@ -1,4 +1,5 @@
 ---
+draft: false
 type: "experience"
 title: "英特尔亚太研发有限公司"
 role: "研发实习生"

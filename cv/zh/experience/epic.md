@@ -1,4 +1,5 @@
 ---
+draft: false
 type: "experience"
 title: "北京自然选择教育科技有限公司"
 role: "区域市场专员"

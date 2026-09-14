@@ -1,4 +1,5 @@
 ---
+draft: false
 type: "projects"
 title: "The TUF Robotics Team of Xiamen University"
 startDate: "2019-04"

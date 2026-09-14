@@ -1,4 +1,5 @@
 ---
+draft: false
 title: "CDC基于内容的可变长度分块"
 description: "基于内容的可变长度分块（CDC）相关原理解析" 
 date: "2023-05-24" # The date of the post fist published.

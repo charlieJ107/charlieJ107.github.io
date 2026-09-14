@@ -1,4 +1,5 @@
 ---
+draft: false
 title: "Mushroom POV项目细节"
 description: "关于Mushroom POV项目的一些细节。"
 date: "2023-06-19" # The date of the post fist published.

@@ -1,4 +1,5 @@
 ---
+draft: false
 type: "projects"
 title: "厦门大学TUF机器人队"
 startDate: "2019-04"

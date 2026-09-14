@@ -1,4 +1,5 @@
 ---
+draft: false
 title: '使用 Verilog 设计实现FGPA上的Mealy状态机'
 date: 2020-05-16
 category: 学了就忘

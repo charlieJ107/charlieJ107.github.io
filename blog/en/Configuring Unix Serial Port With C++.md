@@ -1,4 +1,5 @@
 ---
+draft: false
 title: "Configuring UNIX Serial Port with C++ and termios Library: A Step-by-Step Guide"
 description: "In this guide, we will discuss how to configure and control a serial port on a UNIX system using C++ and the native termios library. We will cover opening the serial port device, configuring the port parameters, and reading/writing data to the serial port." 
 date: "2023-06-03" # The date of the post fist published.

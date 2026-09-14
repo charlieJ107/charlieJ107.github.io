@@ -1,4 +1,5 @@
 ---
+draft: false
 title: Jupyter添加虚拟环境
 category: 少说两句
 date: 2022-04-09 17:53:23

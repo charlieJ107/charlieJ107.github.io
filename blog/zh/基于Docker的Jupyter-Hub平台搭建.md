@@ -1,4 +1,5 @@
 ---
+draft: false
 title: 基于Docker的Jupyter Hub平台搭建
 date: 2021-08-31 02:08:14
 category: 少说两句
@@ -16,7 +17,7 @@ description: 本文介绍基于Docker搭建 Jupyter Hub 平台并实现GPU共享
 
 ## 环境准备
 
-首先, 需要确保[安装Docker](docs.docker.com/get-docker)
+首先, 需要确保[安装Docker](https://docs.docker.com/get-docker/)
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
