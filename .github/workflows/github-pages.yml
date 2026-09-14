@@ -1,45 +1,58 @@
-# This is a basic workflow to help you get started with Actions
+name: Publish legacy GitHub Pages redirects
 
-name: Publish to GitHub Pages
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on a repository dispatch event with type "update"
-  repository_dispatch:
-    types: [ "parent_updated" ]
+  push:
+    branches: [master]
+    paths:
+      - '.legacy-pages/**'
+      - '.github/workflows/github-pages.yml'
+  workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.legacy.outputs.ready }}
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v4
+      - name: Checkout public migration pages
+        uses: actions/checkout@v7
         with:
-          repository: charlieJ107/www.zhuoling.space
-          submodules: "recursive"
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-  
-      - name: Build with Astro
-        uses: withastro/action@v3
+          persist-credentials: false
+
+      - name: Check for the first synchronized migration pages
+        id: legacy
+        run: |
+          if [[ -f .legacy-pages/index.html && -f .legacy-pages/404.html && -f .legacy-pages/.nojekyll ]]; then
+            echo 'ready=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+            echo 'Migration pages are not present yet; leaving the existing Pages deployment intact.'
+          fi
+
+      - name: Upload migration pages
+        if: steps.legacy.outputs.ready == 'true'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .legacy-pages/
 
   deploy:
-    runs-on: ubuntu-latest
     needs: build
-    name: Deploy
+    if: needs.build.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy migration pages to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
-    
-
-
+        uses: actions/deploy-pages@v5
