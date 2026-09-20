@@ -3,7 +3,8 @@ draft: false
 title: "BigDL"
 url: "https://github.com/intel-analytics/BigDL-2.x"
 updatedAt: 2021-08-01
-group: "pinned"
+group: "work"
+status: archived
 heroImage: "../../../images/projects/bigdl_logo.jpg"
 ---
 - BigDL A Distributed Deep Learning Framework for Apache Spark

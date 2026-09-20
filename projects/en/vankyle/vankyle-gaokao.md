@@ -6,4 +6,4 @@ updatedAt: 2021-08-01T00:00:00Z
 group: "personal"
 status: archived
 ---
-免费开源的高考志愿查询系统
+A free, open-source system for looking up university application options for China's Gaokao.

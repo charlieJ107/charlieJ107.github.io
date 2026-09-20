@@ -4,7 +4,8 @@ title: "Mushoom POV"
 url: "https://github.com/charlieJ107/Mushoom-POV"
 role: "Author"
 updatedAt: 2021-08-01
-group: "pinned"
+group: "personal"
+status: archived
 heroImage: "../../../images/projects/mushoom-pov.png"
 ---
 
