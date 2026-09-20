@@ -45,19 +45,6 @@ public class MyDependency
 
 Looking at this class, aside from a constructor that does nothing, there's a method that prints a message and returns a Task.
 
-```c#
-public class IndexModel : PageModel
-{
-    MyDependency _dependency = new MyDependency();
-
-    public async Task OnGetAsync()
-    {
-        await _dependency.WriteMessage(
-            "IndexModel.OnGetAsync created this message.");
-    }
-}
-```
-
 The typical approach is to instantiate a `MyDependency` object in a page's `PageModel`. That's the standard way to do it.
 
 ```c#

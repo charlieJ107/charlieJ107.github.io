@@ -45,19 +45,6 @@ public class MyDependency
 
 稍微分析一下这个类, 除了一个什么都不做的构造函数之外, 还有一个打印消息的函数, 这个函数返回Task. 
 
- ```c#
-public class IndexModel : PageModel
-{
-    MyDependency _dependency = new MyDependency();
-
-    public async Task OnGetAsync()
-    {
-        await _dependency.WriteMessage(
-            "IndexModel.OnGetAsync created this message.");
-    }
-}
- ```
-
 接下来, 我们开始在一个页面的`PageModel`实例化一个`Mydependency`对象, 这个是一个常规操作. 
 
 ```c#
