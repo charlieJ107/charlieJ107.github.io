@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" width="680" height="420" role="img" aria-label="TEB 的超图结构：位姿和时间间隔是待优化的顶点，每条约束是一条只连接两到五个顶点的超边，因此海塞矩阵是带状稀疏的">
+  <title>TEB 的超图结构</title>
+  <style>
+    .txt   { fill: #334155; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .ink   { stroke: #475569; fill: none; }
+    .f-ink { fill: #475569; }
+    .muted { stroke: #94a3b8; fill: none; }
+    .cand  { stroke: #94a3b8; fill: none; stroke-width: 1.5; }
+    .bad   { stroke: #d14343; fill: none; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .bad-s { stroke: #d14343; fill: none; stroke-width: 2.2; }
+    .f-bad { fill: #d14343; }
+    .hollow-bad { fill: #ffffff; fill-opacity: 0; stroke: #d14343; stroke-width: 1.8; stroke-dasharray: 3 3; }
+    .best  { stroke: #2f855a; fill: none; stroke-width: 3.2; }
+    .f-best{ fill: #2f855a; }
+    .obs   { fill: #d14343; fill-opacity: .16; stroke: #d14343; stroke-width: 1.6; }
+    .ring  { fill: none; stroke: #d14343; stroke-width: 1.3; stroke-dasharray: 5 4; }
+    .glob  { stroke: #5a63d8; fill: none; stroke-width: 2; stroke-dasharray: 7 5; }
+    .f-glob{ fill: #5a63d8; }
+    @media (prefers-color-scheme: dark) {
+      .txt { fill: #cbd5e1; }
+      .ink { stroke: #cbd5e1; } .f-ink { fill: #cbd5e1; }
+      .muted { stroke: #64748b; }
+      .cand { stroke: #6b7a8f; }
+      .bad, .bad-s { stroke: #f87171; } .f-bad { fill: #f87171; }
+      .hollow-bad { stroke: #f87171; }
+      .best { stroke: #4ade80; } .f-best { fill: #4ade80; }
+      .obs { fill: #f87171; fill-opacity: .2; stroke: #f87171; }
+      .ring { stroke: #f87171; }
+      .glob { stroke: #a5b4fc; } .f-glob { fill: #a5b4fc; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-ink" />
+    </marker>
+    <marker id="ah-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-bad" />
+    </marker>
+    <marker id="ah-best" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-best" />
+    </marker>
+  </defs>
+  <style>.pose-lbl { fill: #ffffff; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    @media (prefers-color-scheme: dark) { .pose-lbl { fill: #0b1220; } }</style>
+  <g>
+    <line x1="170" y1="62" x2="170" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="380" y1="62" x2="380" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="140" y1="230" x2="100" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="140" y1="230" x2="240" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="300" y1="230" x2="240" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="300" y1="230" x2="380" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="300" y1="230" x2="310" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="430" y1="330" x2="240" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="430" y1="330" x2="380" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="430" y1="330" x2="520" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="430" y1="330" x2="310" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="430" y1="330" x2="450" y2="150" class="muted" stroke-width="1.2" />
+    <line x1="100" y1="150" x2="240" y2="150" class="ink" stroke-width="1.6" />
+    <line x1="240" y1="150" x2="380" y2="150" class="ink" stroke-width="1.6" />
+    <line x1="380" y1="150" x2="520" y2="150" class="ink" stroke-width="1.6" />
+    <rect x="149" y="135" width="42" height="30" rx="6" class="obs" />
+    <text class="txt" x="170" y="155" font-size="13" text-anchor="middle">ΔT<tspan font-size="10" dy="4">i−1</tspan></text>
+    <rect x="289" y="135" width="42" height="30" rx="6" class="obs" />
+    <text class="txt" x="310" y="155" font-size="13" text-anchor="middle">ΔT<tspan font-size="10" dy="4">i</tspan></text>
+    <rect x="429" y="135" width="42" height="30" rx="6" class="obs" />
+    <text class="txt" x="450" y="155" font-size="13" text-anchor="middle">ΔT<tspan font-size="10" dy="4">i+1</tspan></text>
+    <circle cx="100" cy="150" r="21" class="f-best" />
+    <text class="pose-lbl" x="100" y="155" font-size="14" text-anchor="middle">x<tspan font-size="10" dy="4">i−1</tspan></text>
+    <circle cx="240" cy="150" r="21" class="f-best" />
+    <text class="pose-lbl" x="240" y="155" font-size="14" text-anchor="middle">x<tspan font-size="10" dy="4">i</tspan></text>
+    <circle cx="380" cy="150" r="21" class="f-best" />
+    <text class="pose-lbl" x="380" y="155" font-size="14" text-anchor="middle">x<tspan font-size="10" dy="4">i+1</tspan></text>
+    <circle cx="520" cy="150" r="21" class="f-best" />
+    <text class="pose-lbl" x="520" y="155" font-size="14" text-anchor="middle">x<tspan font-size="10" dy="4">i+2</tspan></text>
+    <polygon class="glob" points="170,51 181,62 170,73 159,62" />
+    <text class="txt" x="170" y="38" font-size="13" text-anchor="middle">时间最优</text>
+    <polygon class="glob" points="380,51 391,62 380,73 369,62" />
+    <text class="txt" x="380" y="38" font-size="13" text-anchor="middle">障碍 / 路径点</text>
+    <polygon class="glob" points="140,219 151,230 140,241 129,230" />
+    <text class="txt" x="140" y="262" font-size="13" text-anchor="middle">运动学（非完整约束）</text>
+    <polygon class="glob" points="300,219 311,230 300,241 289,230" />
+    <text class="txt" x="300" y="262" font-size="13" text-anchor="middle">速度</text>
+    <polygon class="glob" points="430,319 441,330 430,341 419,330" />
+    <text class="txt" x="430" y="362" font-size="13" text-anchor="middle">加速度</text>
+    <g transform="translate(26,392)">
+      <circle class="f-best" cx="9" cy="0" r="9" />
+      <text class="txt" x="26" y="5" font-size="13">位姿顶点 x ∈ SE(2)</text>
+      <rect x="182" y="-9" width="26" height="18" rx="4" class="obs" />
+      <text class="txt" x="216" y="5" font-size="13">时间间隔顶点 ΔT</text>
+      <polygon class="glob" points="382,-9 391,0 382,9 373,0" />
+      <text class="txt" x="398" y="5" font-size="13">约束（超边），只连少数几个顶点</text>
+    </g>
+  </g>
+</svg>

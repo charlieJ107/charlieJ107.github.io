@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 372" width="860" height="372" role="img">
+  <style>
+    .txt   { fill: #334155; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .txt-w { fill: #ffffff; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .mono  { fill: #475569; font-family: ui-monospace,"Cascadia Mono",Consolas,monospace; }
+    .ink   { stroke: #475569; fill: none; }
+    .f-ink { fill: #475569; }
+    .muted { stroke: #94a3b8; fill: none; }
+    .grid  { stroke: #cbd5e1; fill: none; stroke-width: 1; }
+    .box   { fill: #ffffff; stroke: #475569; stroke-width: 1.6; }
+    .wave  { stroke: #475569; fill: none; stroke-width: 1.8; stroke-linejoin: round; }
+    .bus   { fill: #94a3b8; fill-opacity: .14; stroke: #475569; stroke-width: 1.4; }
+    .hit   { stroke: #2f855a; fill: none; stroke-width: 2.4; stroke-linejoin: round; }
+    .f-hit { fill: #2f855a; }
+    .hitbg { fill: #2f855a; fill-opacity: .13; }
+    .bad   { stroke: #d14343; fill: none; stroke-width: 2; }
+    .f-bad { fill: #d14343; }
+    .badbg { fill: #d14343; fill-opacity: .12; }
+    .dash  { stroke: #d14343; fill: none; stroke-width: 1.6; stroke-dasharray: 5 4; }
+    .gdash { stroke: #2f855a; fill: none; stroke-width: 1.6; stroke-dasharray: 5 4; }
+    .lr    { fill: #d14343; }
+    .ly    { fill: #e0a02c; }
+    .lg    { fill: #2f855a; }
+    @media (prefers-color-scheme: dark) {
+      .txt { fill: #cbd5e1; } .txt-w { fill: #0b1220; } .mono { fill: #cbd5e1; }
+      .ink { stroke: #cbd5e1; } .f-ink { fill: #cbd5e1; }
+      .muted { stroke: #64748b; }
+      .grid { stroke: #3f4a5a; }
+      .box  { fill: #111827; stroke: #cbd5e1; }
+      .wave { stroke: #cbd5e1; }
+      .bus  { fill: #64748b; fill-opacity: .22; stroke: #cbd5e1; }
+      .hit  { stroke: #4ade80; } .f-hit { fill: #4ade80; } .hitbg { fill: #4ade80; fill-opacity: .16; }
+      .bad  { stroke: #f87171; } .f-bad { fill: #f87171; } .badbg { fill: #f87171; fill-opacity: .16; }
+      .dash { stroke: #f87171; } .gdash { stroke: #4ade80; }
+      .lr { fill: #f87171; } .ly { fill: #fbbf24; } .lg { fill: #4ade80; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-ink" />
+    </marker>
+    <marker id="ah-hit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-hit" />
+    </marker>
+    <marker id="ah-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-bad" />
+    </marker>
+  </defs>
+<text x="430" y="30" class="txt" font-size="16" text-anchor="middle" font-weight="600">State diagram of the Mealy 1101 sequence detector</text>
+<text x="430" y="52" class="txt" font-size="12" text-anchor="middle">Edges are labelled din / dout; the second line in each box is the value of present_state</text>
+<path d="M 712 137 C 712 74, 112 74, 112 137" class="ink" stroke-width="1.8" marker-end="url(#ah)" />
+<text x="412" y="99.5" class="mono" font-size="13" text-anchor="middle">0 / 0</text>
+<path d="M 312 137 C 312 108, 112 108, 112 137" class="ink" stroke-width="1.8" marker-end="url(#ah)" />
+<text x="212" y="116.5" class="mono" font-size="13" text-anchor="middle">0 / 0</text>
+<path d="M 712 199 C 712 296, 312 296, 312 199" class="hit" stroke-width="2.4" marker-end="url(#ah-hit)" />
+<text x="640" y="289.75" class="f-hit mono" font-size="13" text-anchor="middle" font-weight="600">1 / 1</text>
+<line x1="166" y1="168" x2="258" y2="168" class="ink" stroke-width="1.8" marker-end="url(#ah)" />
+<text x="212" y="158" class="mono" font-size="13" text-anchor="middle">1 / 0</text>
+<line x1="366" y1="168" x2="458" y2="168" class="ink" stroke-width="1.8" marker-end="url(#ah)" />
+<text x="412" y="158" class="mono" font-size="13" text-anchor="middle">1 / 0</text>
+<line x1="566" y1="168" x2="658" y2="168" class="ink" stroke-width="1.8" marker-end="url(#ah)" />
+<text x="612" y="158" class="mono" font-size="13" text-anchor="middle">0 / 0</text>
+<path d="M 96 199 C 66 255, 158 255, 128 199" class="ink" stroke-width="1.8" marker-end="url(#ah)" />
+<text x="112" y="255" class="mono" font-size="13" text-anchor="middle">0 / 0</text>
+<path d="M 496 199 C 466 255, 558 255, 528 199" class="ink" stroke-width="1.8" marker-end="url(#ah)" />
+<text x="512" y="255" class="mono" font-size="13" text-anchor="middle">1 / 0</text>
+<rect x="58" y="137" width="108" height="62" rx="10" class="box" />
+<text x="112" y="156" class="txt" font-size="17" text-anchor="middle" font-weight="600">S0</text>
+<text x="112" y="174" class="mono" font-size="12" text-anchor="middle">00</text>
+<text x="112" y="191" class="txt" font-size="11" text-anchor="middle">No match yet</text>
+<rect x="258" y="137" width="108" height="62" rx="10" class="box" />
+<text x="312" y="156" class="txt" font-size="17" text-anchor="middle" font-weight="600">S1</text>
+<text x="312" y="174" class="mono" font-size="12" text-anchor="middle">01</text>
+<text x="312" y="191" class="txt" font-size="11" text-anchor="middle">Matched 1</text>
+<rect x="458" y="137" width="108" height="62" rx="10" class="box" />
+<text x="512" y="156" class="txt" font-size="17" text-anchor="middle" font-weight="600">S2</text>
+<text x="512" y="174" class="mono" font-size="12" text-anchor="middle">10</text>
+<text x="512" y="191" class="txt" font-size="11" text-anchor="middle">Matched 11</text>
+<rect x="658" y="137" width="108" height="62" rx="10" class="box" />
+<text x="712" y="156" class="txt" font-size="17" text-anchor="middle" font-weight="600">S3</text>
+<text x="712" y="174" class="mono" font-size="12" text-anchor="middle">11</text>
+<text x="712" y="191" class="txt" font-size="11" text-anchor="middle">Matched 110</text>
+<line x1="228" y1="344" x2="268" y2="344" class="hit" stroke-width="2.4" marker-end="url(#ah-hit)" />
+<text x="278" y="349" class="txt" font-size="12" text-anchor="start">The only transition that outputs 1; returning to S1 not S0 is what enables overlap</text>
+</svg>

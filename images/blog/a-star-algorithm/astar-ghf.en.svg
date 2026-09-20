@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 476" width="700" height="476" role="img" aria-label="The g, h and f values on each cell of an A* expansion: g is the number of steps actually taken from the start, h is the Manhattan-distance estimate to the goal, and f is their sum; every round the algorithm takes the cell with the smallest f out of the open list and expands it">
+  <title>g, h and f in A*</title>
+  <style>
+    .txt   { fill: #334155; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .txt-w { fill: #ffffff; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .mono  { fill: #475569; font-family: ui-monospace,"Cascadia Mono",Consolas,monospace; }
+    .ink   { stroke: #475569; fill: none; }
+    .f-ink { fill: #475569; }
+    .muted { stroke: #94a3b8; fill: none; }
+    .grid  { stroke: #cbd5e1; fill: none; stroke-width: 1; }
+    .wall  { fill: #475569; }
+    .box   { fill: #ffffff; stroke: #475569; stroke-width: 1.5; }
+    .box-a { fill: #2f855a; fill-opacity: .12; stroke: #2f855a; stroke-width: 1.6; }
+    .box-b { fill: #5a63d8; fill-opacity: .12; stroke: #5a63d8; stroke-width: 1.6; }
+    .box-o { fill: #94a3b8; fill-opacity: .14; stroke: #94a3b8; stroke-width: 1.4; }
+    .dij   { fill: #5a63d8; fill-opacity: .22; }
+    .ast   { fill: #2f855a; fill-opacity: .24; }
+    .open  { fill: #e0a02c; fill-opacity: .3; }
+    .bad   { stroke: #d14343; fill: none; stroke-width: 2; }
+    .f-bad { fill: #d14343; }
+    .best  { stroke: #2f855a; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .f-best{ fill: #2f855a; }
+    .glob  { stroke: #5a63d8; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .f-glob{ fill: #5a63d8; }
+    .dash  { stroke: #d14343; fill: none; stroke-width: 2; stroke-dasharray: 6 4; }
+    .p1    { stroke: #2f855a; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .p2    { stroke: #5a63d8; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .p3    { stroke: #e0a02c; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .f-p3  { fill: #e0a02c; }
+    @media (prefers-color-scheme: dark) {
+      .txt { fill: #cbd5e1; } .txt-w { fill: #0b1220; } .mono { fill: #cbd5e1; }
+      .ink { stroke: #cbd5e1; } .f-ink { fill: #cbd5e1; }
+      .muted { stroke: #64748b; }
+      .grid { stroke: #3f4a5a; }
+      .wall { fill: #8496ad; }
+      .box  { fill: #111827; stroke: #cbd5e1; }
+      .box-a { fill: #4ade80; fill-opacity: .16; stroke: #4ade80; }
+      .box-b { fill: #a5b4fc; fill-opacity: .16; stroke: #a5b4fc; }
+      .box-o { fill: #64748b; fill-opacity: .2; stroke: #94a3b8; }
+      .dij  { fill: #a5b4fc; fill-opacity: .26; }
+      .ast  { fill: #4ade80; fill-opacity: .26; }
+      .open { fill: #fbbf24; fill-opacity: .3; }
+      .bad  { stroke: #f87171; } .f-bad { fill: #f87171; }
+      .best { stroke: #4ade80; } .f-best { fill: #4ade80; }
+      .glob { stroke: #a5b4fc; } .f-glob { fill: #a5b4fc; }
+      .dash { stroke: #f87171; }
+      .p1 { stroke: #4ade80; } .p2 { stroke: #a5b4fc; } .p3 { stroke: #fbbf24; } .f-p3 { fill: #fbbf24; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-ink" />
+    </marker>
+    <marker id="ah-best" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-best" />
+    </marker>
+  </defs>
+  <g>
+    <rect x="100" y="180" width="58" height="58" class="ast" />
+    <rect x="158" y="180" width="58" height="58" class="ast" />
+    <rect x="216" y="180" width="58" height="58" class="ast" />
+    <rect x="216" y="122" width="58" height="58" class="ast" />
+    <rect x="216" y="238" width="58" height="58" class="ast" />
+    <rect x="158" y="122" width="58" height="58" class="ast" />
+    <rect x="158" y="238" width="58" height="58" class="ast" />
+    <rect x="100" y="122" width="58" height="58" class="ast" />
+    <rect x="42" y="180" width="58" height="58" class="ast" />
+    <rect x="100" y="238" width="58" height="58" class="ast" />
+    <rect x="216" y="64" width="58" height="58" class="ast" />
+    <rect x="274" y="64" width="58" height="58" class="ast" />
+    <rect x="332" y="64" width="58" height="58" class="ast" />
+    <rect x="390" y="64" width="58" height="58" class="ast" />
+    <rect x="390" y="122" width="58" height="58" class="ast" />
+    <rect x="390" y="180" width="58" height="58" class="ast" />
+    <rect x="216" y="296" width="58" height="58" class="open" />
+    <rect x="158" y="64" width="58" height="58" class="open" />
+    <rect x="158" y="296" width="58" height="58" class="open" />
+    <rect x="42" y="122" width="58" height="58" class="open" />
+    <rect x="100" y="64" width="58" height="58" class="open" />
+    <rect x="42" y="238" width="58" height="58" class="open" />
+    <rect x="100" y="296" width="58" height="58" class="open" />
+    <rect x="332" y="122" width="58" height="58" class="open" />
+    <rect x="448" y="64" width="58" height="58" class="open" />
+    <rect x="448" y="122" width="58" height="58" class="open" />
+    <rect x="448" y="180" width="58" height="58" class="open" />
+    <rect x="332" y="180" width="58" height="58" class="open" />
+    <rect x="390" y="238" width="58" height="58" class="open" />
+    <rect x="274" y="122" width="58" height="58" class="wall" />
+    <rect x="274" y="180" width="58" height="58" class="wall" />
+    <rect x="274" y="238" width="58" height="58" class="wall" />
+    <line x1="42" y1="64" x2="42" y2="354" class="grid" />
+    <line x1="100" y1="64" x2="100" y2="354" class="grid" />
+    <line x1="158" y1="64" x2="158" y2="354" class="grid" />
+    <line x1="216" y1="64" x2="216" y2="354" class="grid" />
+    <line x1="274" y1="64" x2="274" y2="354" class="grid" />
+    <line x1="332" y1="64" x2="332" y2="354" class="grid" />
+    <line x1="390" y1="64" x2="390" y2="354" class="grid" />
+    <line x1="448" y1="64" x2="448" y2="354" class="grid" />
+    <line x1="506" y1="64" x2="506" y2="354" class="grid" />
+    <line x1="42" y1="64" x2="506" y2="64" class="grid" />
+    <line x1="42" y1="122" x2="506" y2="122" class="grid" />
+    <line x1="42" y1="180" x2="506" y2="180" class="grid" />
+    <line x1="42" y1="238" x2="506" y2="238" class="grid" />
+    <line x1="42" y1="296" x2="506" y2="296" class="grid" />
+    <line x1="42" y1="354" x2="506" y2="354" class="grid" />
+    <text class="mono" x="105" y="194" font-size="10">g0</text>
+    <text class="mono" x="153" y="194" font-size="10" text-anchor="end">h5</text>
+    <text class="txt" x="129" y="216" font-size="17" font-weight="700" text-anchor="middle">5</text>
+    <text class="mono" x="163" y="194" font-size="10">g1</text>
+    <text class="mono" x="211" y="194" font-size="10" text-anchor="end">h4</text>
+    <text class="txt" x="187" y="216" font-size="17" font-weight="700" text-anchor="middle">5</text>
+    <text class="mono" x="221" y="194" font-size="10">g2</text>
+    <text class="mono" x="269" y="194" font-size="10" text-anchor="end">h3</text>
+    <text class="txt" x="245" y="216" font-size="17" font-weight="700" text-anchor="middle">5</text>
+    <text class="mono" x="221" y="136" font-size="10">g3</text>
+    <text class="mono" x="269" y="136" font-size="10" text-anchor="end">h4</text>
+    <text class="txt" x="245" y="158" font-size="17" font-weight="700" text-anchor="middle">7</text>
+    <text class="mono" x="221" y="252" font-size="10">g3</text>
+    <text class="mono" x="269" y="252" font-size="10" text-anchor="end">h4</text>
+    <text class="txt" x="245" y="274" font-size="17" font-weight="700" text-anchor="middle">7</text>
+    <text class="mono" x="163" y="136" font-size="10">g2</text>
+    <text class="mono" x="211" y="136" font-size="10" text-anchor="end">h5</text>
+    <text class="txt" x="187" y="158" font-size="17" font-weight="700" text-anchor="middle">7</text>
+    <text class="mono" x="163" y="252" font-size="10">g2</text>
+    <text class="mono" x="211" y="252" font-size="10" text-anchor="end">h5</text>
+    <text class="txt" x="187" y="274" font-size="17" font-weight="700" text-anchor="middle">7</text>
+    <text class="mono" x="105" y="136" font-size="10">g1</text>
+    <text class="mono" x="153" y="136" font-size="10" text-anchor="end">h6</text>
+    <text class="txt" x="129" y="158" font-size="17" font-weight="700" text-anchor="middle">7</text>
+    <text class="mono" x="47" y="194" font-size="10">g1</text>
+    <text class="mono" x="95" y="194" font-size="10" text-anchor="end">h6</text>
+    <text class="txt" x="71" y="216" font-size="17" font-weight="700" text-anchor="middle">7</text>
+    <text class="mono" x="105" y="252" font-size="10">g1</text>
+    <text class="mono" x="153" y="252" font-size="10" text-anchor="end">h6</text>
+    <text class="txt" x="129" y="274" font-size="17" font-weight="700" text-anchor="middle">7</text>
+    <text class="mono" x="221" y="78" font-size="10">g4</text>
+    <text class="mono" x="269" y="78" font-size="10" text-anchor="end">h5</text>
+    <text class="txt" x="245" y="100" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="279" y="78" font-size="10">g5</text>
+    <text class="mono" x="327" y="78" font-size="10" text-anchor="end">h4</text>
+    <text class="txt" x="303" y="100" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="337" y="78" font-size="10">g6</text>
+    <text class="mono" x="385" y="78" font-size="10" text-anchor="end">h3</text>
+    <text class="txt" x="361" y="100" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="395" y="78" font-size="10">g7</text>
+    <text class="mono" x="443" y="78" font-size="10" text-anchor="end">h2</text>
+    <text class="txt" x="419" y="100" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="395" y="136" font-size="10">g8</text>
+    <text class="mono" x="443" y="136" font-size="10" text-anchor="end">h1</text>
+    <text class="txt" x="419" y="158" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="395" y="194" font-size="10">g9</text>
+    <text class="mono" x="443" y="194" font-size="10" text-anchor="end">h0</text>
+    <text class="txt" x="419" y="216" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="221" y="310" font-size="10">g4</text>
+    <text class="mono" x="269" y="310" font-size="10" text-anchor="end">h5</text>
+    <text class="txt" x="245" y="332" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="163" y="78" font-size="10">g3</text>
+    <text class="mono" x="211" y="78" font-size="10" text-anchor="end">h6</text>
+    <text class="txt" x="187" y="100" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="163" y="310" font-size="10">g3</text>
+    <text class="mono" x="211" y="310" font-size="10" text-anchor="end">h6</text>
+    <text class="txt" x="187" y="332" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="47" y="136" font-size="10">g2</text>
+    <text class="mono" x="95" y="136" font-size="10" text-anchor="end">h7</text>
+    <text class="txt" x="71" y="158" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="105" y="78" font-size="10">g2</text>
+    <text class="mono" x="153" y="78" font-size="10" text-anchor="end">h7</text>
+    <text class="txt" x="129" y="100" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="47" y="252" font-size="10">g2</text>
+    <text class="mono" x="95" y="252" font-size="10" text-anchor="end">h7</text>
+    <text class="txt" x="71" y="274" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="105" y="310" font-size="10">g2</text>
+    <text class="mono" x="153" y="310" font-size="10" text-anchor="end">h7</text>
+    <text class="txt" x="129" y="332" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="337" y="136" font-size="10">g7</text>
+    <text class="mono" x="385" y="136" font-size="10" text-anchor="end">h2</text>
+    <text class="txt" x="361" y="158" font-size="17" font-weight="700" text-anchor="middle">9</text>
+    <text class="mono" x="453" y="78" font-size="10">g8</text>
+    <text class="mono" x="501" y="78" font-size="10" text-anchor="end">h3</text>
+    <text class="txt" x="477" y="100" font-size="17" font-weight="700" text-anchor="middle">11</text>
+    <text class="mono" x="453" y="136" font-size="10">g9</text>
+    <text class="mono" x="501" y="136" font-size="10" text-anchor="end">h2</text>
+    <text class="txt" x="477" y="158" font-size="17" font-weight="700" text-anchor="middle">11</text>
+    <rect x="103" y="183" width="52" height="52" rx="4" class="best" />
+    <rect x="161" y="183" width="52" height="52" rx="4" class="best" />
+    <rect x="219" y="183" width="52" height="52" rx="4" class="best" />
+    <rect x="219" y="125" width="52" height="52" rx="4" class="best" />
+    <rect x="219" y="67" width="52" height="52" rx="4" class="best" />
+    <rect x="277" y="67" width="52" height="52" rx="4" class="best" />
+    <rect x="335" y="67" width="52" height="52" rx="4" class="best" />
+    <rect x="393" y="67" width="52" height="52" rx="4" class="best" />
+    <rect x="393" y="125" width="52" height="52" rx="4" class="best" />
+    <rect x="393" y="183" width="52" height="52" rx="4" class="best" />
+    <circle cx="144" cy="224" r="10" class="f-ink" />
+    <text class="txt-w" x="144" y="228" font-size="12" text-anchor="middle" font-weight="700">S</text>
+    <circle cx="434" cy="224" r="10" class="f-ink" />
+    <text class="txt-w" x="434" y="228" font-size="12" text-anchor="middle" font-weight="700">G</text>
+    <text class="txt" x="42" y="38" font-size="14">g (top left) is the steps taken, h (top right) is the Manhattan estimate, f = g + h</text>
+    <g transform="translate(42,400)">
+      <rect x="0" y="-10" width="20" height="20" class="ast" />
+      <rect x="0" y="-10" width="20" height="20" class="grid" />
+      <text class="txt" x="28" y="5" font-size="13">Expanded (closed)</text>
+      <rect x="168" y="-10" width="20" height="20" class="open" />
+      <rect x="168" y="-10" width="20" height="20" class="grid" />
+      <text class="txt" x="196" y="5" font-size="13">Entered open, never expanded</text>
+      <rect x="386" y="-10" width="20" height="20" class="wall" />
+      <text class="txt" x="414" y="5" font-size="13">Obstacle</text>
+      <rect x="476" y="-10" width="20" height="20" rx="3" class="best" stroke-width="2.5" />
+      <text class="txt" x="518" y="5" font-size="13">Cells on the final path</text>
+    </g>
+    <text class="txt" x="42" y="432" font-size="13">Each round expands the smallest f; ties go to the smaller h, i.e. the one nearer the goal.</text>
+    <text class="txt" x="42" y="452" font-size="13">This run expands 16 cells; another 13 entered open and were never reached — the saving.</text>
+  </g>
+</svg>

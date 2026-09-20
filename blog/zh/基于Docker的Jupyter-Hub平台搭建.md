@@ -15,6 +15,8 @@ description: 本文介绍基于Docker搭建 Jupyter Hub 平台并实现GPU共享
 
 <!--more-->
 
+> **写在前面**：这篇文章写于 2021 年，是当时给实验室搭共享 GPU 环境时留下的记录。文中用到的私有 GitLab、私有镜像仓库如今都已经下线了，相关部分我改成了通用写法——换成你自己的 OAuth 服务商和镜像仓库即可，思路是一样的。CUDA 版本号、驱动安装方式这些也请以官方最新文档为准。
+
 ## 环境准备
 
 首先, 需要确保[安装Docker](https://docs.docker.com/get-docker/)
@@ -87,7 +89,7 @@ Jupyter Hub本身不承担计算任务, 只是一个代理和管理平台, 但�
 * 安装了 `python3-pip`
 * 安装了 `jupyterlab`,  `jupyterhub`,  `jupyter-notebook`
 
-为了方便后续使用, 我预先编写了一些Dockerfile, 可以使用来自`eric107/jupyter-docker`这个仓库的Dockerfile来构建镜像. 
+当时为了方便, 我自己写了一套 Dockerfile 放在实验室的私有仓库里, 现在那个仓库已经不在了. 不过官方维护的 [jupyter/docker-stacks](https://github.com/jupyter/docker-stacks) 已经足够好用, 在它的基础上换成 `nvidia/cuda` 的基础镜像即可; 后文出现的 `registry.example.com/your-org/jupyter-docker/...` 都请替换成你自己构建并推送的镜像名. 
 
 ## 选择安装方式
 
@@ -97,7 +99,9 @@ Jupyter Hub本身不承担计算任务, 只是一个代理和管理平台, 但�
 
 用户登录Hub后, 根据Hub的配置 ( 定义在`Config.py`中) 会先对其进行身份验证, 没有登录或者注册的用户, Hub会重定向到指定的身份验证的地址. 完成登录流程后, 再重定向回到Hub. 随后, Hub会根据身份验证的结果, 使用`Spawner` 给用户分配一个 Jupyter Lab 服务器. 相对应的映射数据等会保存在Hub的数据库中. 
 
-![](https://jupyterhub.readthedocs.io/en/stable/_images/jhub-fluxogram.jpeg)
+![JupyterHub 的请求流程：浏览器的请求先到 HTTP Proxy，未登录的请求被代理给 Hub，Hub 通过 Authenticator 跳转到 OAuth 服务商完成授权，再由 Spawner 启动该用户的容器并把路由写回 Proxy，此后流量由 Proxy 直接代理到用户容器，不再经过 Hub](../../images/blog/jupyterhub-docker/jupyterhub-flow.zh.svg)
+
+这里有一点值得留意：**登录完成之后，Hub 就退出了数据通路**。用户后续的所有请求都由 Proxy 直接转发到自己的容器，Hub 只在登录、启停容器时才参与。所以 Hub 短暂重启并不会打断正在写代码的用户。
 
 Jupyter Hub 本身需要维护一些数据, 包括用户ID与对应容器的映射关系等. 这些数据本身在用户不是很多, 负载不是很大的情况下可以使用默认的SQLite来存储, 如果你对高可用(比如定期备份, 分布式存储, 灾后重建恢复等)功能有要求, 可以使用MySQL或者其他数据库来进行存储. 这里不多赘述, 直接使用默认的SQLLite. 
 
@@ -115,50 +119,84 @@ Jupyter Hub是一个可以实现多用户分配不同 Jupyter Notebook 的平台
 
 ### 身份验证
 
-在身份验证上，理论上任何支持OAuth协议的身份提供方都可以完成认证工作. 而我们安装的OAuth插件对GitLab和GitHub的支持比较良好. 所以这里我以使用`gitlab.vankyle.cn`和Github为例，分别介绍。
+理论上任何支持 OAuth 协议的身份提供方都可以完成认证工作, 而 `oauthenticator` 这个插件对 GitLab 和 GitHub 的支持最为完善, 下面就以这两者为例.
 
-#### 使用`gitlab.vankyle.cn` 
+#### 先配好 Jupyter Hub 的对外地址
 
-理论上说, 可以使用任何私有GitLab或公有GitLab账号作为认证账号. 但这个操作应当由Jupyter Hub管理员来完成. 这里使用`gitlab.vankyle.cn`为例, 演示私有GitLab的搭建过程. 
+无论用哪家 OAuth 服务商, 第一步都是确定 Jupyter Hub 的对外 URL——因为注册应用时要填的回调地址就是由它拼出来的, 两边必须完全一致, 否则登录会被拒绝.
 
-首先需要配置 Jupyter Hub 的URL, 这里默认使用的是 Jupyter Hub的对外IP, 但如果你使用容器来搭建 Jupyter Hub, 这个IP也是容器的IP, 并不能被外部访问. 你可以修改这个值, 也可以在运行容器时, 使用环境变量`-e JUPYTERHUB_URL=<jupyter hub url>`来配置. 
+默认情况下 Jupyter Hub 使用本机的对外 IP, 但如果你把 Hub 跑在容器里, 拿到的会是容器的内网 IP, 外部根本访问不到. 所以这里留一个环境变量 `JUPYTERHUB_URL` 作为覆盖, 运行容器时用 `-e JUPYTERHUB_URL=<你的地址>` 传进去:
 
 ```python
 import os
 from jupyter_client.localinterfaces import public_ips
-jupyterhub_url = os.environ.get("JUPYTERHUB_URL","http://"+public_ips()[0]+":8888"
+
+jupyterhub_url = os.environ.get("JUPYTERHUB_URL", "http://" + public_ips()[0] + ":8888")
 
 c.JupyterHub.hub_ip = public_ips()[0]
 ```
 
-使用`gitlab.vankyle.cn` ，首先管理员需要在`gitlab.vankyle.cn`注册账号，并在自己的账号中配置`Application`.  这里需要填入我们刚刚配置好的`Jupyter Hub URL`. 并且记得勾选`read_uesr`这个scope. 为了保证安全, 你可以取消勾选私密. 然后在页面最下方点击保存. 
+#### 注册一个 OAuth 应用
 
-![image-20210716032327375](https://data-vankyle-1257862518.cos.ap-shanghai.myqcloud.com/image/Typora-auto/image-20210716032327375.png)
+接下来去你选定的服务商那里注册应用, 这一步应该由 Jupyter Hub 的管理员完成. 各家的界面不太一样, 但要填的东西是固定的这么几项:
 
-随后你可以获得属于这个应用的认证信息,包括`client_id`和`client_secret`. 
+| 要填的字段 | 填什么 |
+| --- | --- |
+| 应用名称 | 随意, 用户授权时会看到它 |
+| 回调地址 (Callback / Redirect URI) | `<你的 Jupyter Hub URL>/hub/oauth_callback` |
+| 权限范围 (Scope) | GitLab 勾 `read_user`; GitHub 留空或 `read:user` 即可 |
 
-![image-20210716032708687](https://data-vankyle-1257862518.cos.ap-shanghai.myqcloud.com/image/Typora-auto/image-20210716032708687.png)
+保存之后, 服务商会给你一对 `client_id` 和 `client_secret`. **`client_secret` 等同于密码, 不要提交进代码仓库**——建议同样用环境变量传入, 而不是直接写死在配置文件里.
 
-这时你需要将这两个认证信息填入配置文件中, 内容如下: 
+几个常见服务商的注册入口:
+
+- GitHub: <https://github.com/settings/applications/new>
+- GitLab.com 或自建 GitLab: 用户设置 → Applications
+- 其他支持 OAuth 2.0 / OIDC 的服务商 (Google、Azure AD、Keycloak 等): 见 [oauthenticator 文档](https://oauthenticator.readthedocs.io/)
+
+#### 使用 GitLab
+
+GitLab 可以是 `gitlab.com`, 也可以是任何一台自建的私有 GitLab. 两者配置完全一样, 区别只在于要不要告诉插件 GitLab 装在哪:
 
 ```python
+import os
+
 c.JupyterHub.authenticator_class = 'oauthenticator.gitlab.GitLabOAuthenticator'
-c.GitLabOAuthenticator.client_id = "<your_client_id>"
-c.GitLabOAuthenticator.client_secret = "<your_client_secret>"
+c.GitLabOAuthenticator.client_id = os.environ["OAUTH_CLIENT_ID"]
+c.GitLabOAuthenticator.client_secret = os.environ["OAUTH_CLIENT_SECRET"]
 c.GitLabOAuthenticator.scope = ['read_user']
-c.GitLabOAuthenticator.oauth_callback_url = jupyterhub_url+"/hub/oauth_callback"
+c.GitLabOAuthenticator.oauth_callback_url = jupyterhub_url + "/hub/oauth_callback"
 ```
 
-最后, 在运行时需要为`Jupyter Hub`容器添加`-e GITLAB_HOST="https://gitlab.vankyle.cn"`这个参数传递环境变量给Jupyter Hub的认证组件, 以确保其使用正确的GitLab地址. 如果你使用的是[eric107/Jupyter-Docker](https://gitlab.vankyle.cn/eric107/jupyter-docker)这个仓库中提供的`jupyter-hub`镜像, 这个环境变量已经被设置好了, 不需要再设置了. 
+如果用的是自建 GitLab, 运行容器时还要多传一个 `-e GITLAB_HOST="https://gitlab.example.com"`, 告诉认证组件去哪台机器做认证; 用 `gitlab.com` 的话这一项可以省略.
 
-#### 使用GitHub
+#### 使用 GitHub
 
-使用GitHub与GitLab类似, 但省去了配置GitLab地址这一步(毕竟没有所谓的私有GItHub). 只需要将支持的插件配置填入即可. 在此之前, 你依然需要前往GitHub创建一个`Application`. [传送门在这](https://github.com/settings/applications/new). 同样是需要填入相应的Jupyter Hub的URL地址, 并且保持与配置文件中的一致. 
+GitHub 更简单一些, 省去了指定服务器地址这一步:
 
 ```python
+import os
+
 # OAuth with GitHub
 c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
-c.GitHubOAuthenticator.oauth_callback_url = jupyterhub_url+"/hub/oauth_callback"
+c.GitHubOAuthenticator.client_id = os.environ["OAUTH_CLIENT_ID"]
+c.GitHubOAuthenticator.client_secret = os.environ["OAUTH_CLIENT_SECRET"]
+c.GitHubOAuthenticator.oauth_callback_url = jupyterhub_url + "/hub/oauth_callback"
+```
+
+#### 限制谁能登录
+
+只配到这里的话, **任何一个在该服务商有账号的人都能登进你的 Hub**——对公有 GitHub 来说这显然不是你想要的. 记得再加一层白名单:
+
+```python
+c.Authenticator.allowed_users = {'alice', 'bob'}
+c.Authenticator.admin_users = {'alice'}
+```
+
+GitHub 还可以按组织或团队来放行, 比实验室逐个加人方便得多:
+
+```python
+c.GitHubOAuthenticator.allowed_organizations = {'your-lab'}
 ```
 
 ## 数据和文件储存位置
@@ -209,15 +247,15 @@ c.DockerSpawner.volumes = { os.environ.get("USER_NOTEBOOK_DATA_DIR", os.path.joi
 用户容器所使用的镜像指定了给每个用户分配容器的时候从哪个镜像开始创建. 由于我们需要使用GPU, 所以我们需要使用自己创建的镜像. 
 
 ```python
-c.DockerSpawner.image = os.environ.get('DOCKER_NOTEBOOK_IMAGE', "registry.gitlab.vankyle.cn/eric107/jupyter-docker/singleuser:20.04")
+c.DockerSpawner.image = os.environ.get('DOCKER_NOTEBOOK_IMAGE', "registry.example.com/your-org/jupyter-docker/singleuser:20.04")
 ```
 
 如果你有多个镜像可供用户选择, 可以使用`allowed_images`配置. 传进去的是一个字典, 字典的key是展示给用户的镜像名称, value是实际使用的镜像名称(和注册表目录). 
 
 ```python
 c.DockerSpawner.allowed_images = {
-    "Base 18.04": "registry.gitlab.vankyle.cn/eric107/jupyter-docker/singleuser:18.04",
-    "Base 20.04": "registry.gitlab.vankyle.cn/eric107/jupyter-docker/singleuser:20.04",
+    "Base 18.04": "registry.example.com/your-org/jupyter-docker/singleuser:18.04",
+    "Base 20.04": "registry.example.com/your-org/jupyter-docker/singleuser:20.04",
     
  }
 ```
@@ -258,22 +296,26 @@ c.Spawner.cmd=["jupyter-labhub"]
 
 ```python
 # /etc/jupyterhub_config.py
-## 使用gitlab.vankyle.cn进行身份验证
-c.JupyterHub.authenticator_class = 'oauthenticator.gitlab.GitLabOAuthenticator'
-## 这里记得改成你的client_id和client_secret
-c.GitLabOAuthenticator.client_id = "<your_client_id>"
-c.GitLabOAuthenticator.client_secret = "<your_client_secret>"
-c.GitLabOAuthenticator.scope = ['read_user']
-## 如果使用Github认证，则注释以上部分，取消注释下面几行
-# c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
-# c.GitHubOAuthenticator.oauth_callback_url = jupyterhub_url+"/hub/oauth_callback"
-
 ## 获取容器IP并设置回调URL
 import os
 from jupyter_client.localinterfaces import public_ips
 jupyterhub_url = os.environ.get("JUPYTERHUB_URL","http://"+public_ips()[0]+":8888")
 
+## 使用 GitLab 进行身份验证
+c.JupyterHub.authenticator_class = 'oauthenticator.gitlab.GitLabOAuthenticator'
+## client_id / client_secret 通过环境变量传入, 不要写死在配置文件里
+c.GitLabOAuthenticator.client_id = os.environ["OAUTH_CLIENT_ID"]
+c.GitLabOAuthenticator.client_secret = os.environ["OAUTH_CLIENT_SECRET"]
+c.GitLabOAuthenticator.scope = ['read_user']
+## 如果使用Github认证，则注释以上部分，取消注释下面几行
+# c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
+# c.GitHubOAuthenticator.oauth_callback_url = jupyterhub_url+"/hub/oauth_callback"
+
 c.GitLabOAuthenticator.oauth_callback_url = jupyterhub_url+"/hub/oauth_callback"
+
+## 只允许白名单内的用户登录, 否则该服务商的任何账号都能进来
+c.Authenticator.allowed_users = {'alice', 'bob'}
+c.Authenticator.admin_users = {'alice'}
 ## 配置文件所在位置
 c.JupyterHub.config_file = '/etc/jupyterhub/jupyterhub_config.py'
 ## Cookie和SQLite数据库文件所在位置
@@ -307,11 +349,11 @@ c.DockerSpawner.notebook_dir = notebook_dir
 c.DockerSpawner.volumes = { os.environ.get("USER_NOTEBOOK_DATA_DIR", os.path.join(system_path, "user-notebooks"))+'/jupyterhub-user-{username}': notebook_dir }
 # 用户容器所使用的镜像
 # 如果只允许使用单个镜像，则使用`image`， 否则使用`allowed_images`
-# c.DockerSpawner.image = os.environ.get('DOCKER_NOTEBOOK_IMAGE', "registry.gitlab.vankyle.cn/eric107/jupyter-docker/singleuser")
+# c.DockerSpawner.image = os.environ.get('DOCKER_NOTEBOOK_IMAGE', "registry.example.com/your-org/jupyter-docker/singleuser")
 # 允许用户选择多个镜像
 c.DockerSpawner.allowed_images = {
-    "Base 18.04": "registry.gitlab.vankyle.cn/eric107/jupyter-docker/singleuser:18.04",
-    "Base 20.04": "registry.gitlab.vankyle.cn/eric107/jupyter-docker/singleuser:20.04",
+    "Base 18.04": "registry.example.com/your-org/jupyter-docker/singleuser:18.04",
+    "Base 20.04": "registry.example.com/your-org/jupyter-docker/singleuser:20.04",
  }
 
 # 根据所使用的镜像不同，如果镜像默认使用root用户启动（比如Tensorflow提供的notebook镜像），则需要加入 "--allow-root" 参数
@@ -369,9 +411,9 @@ docker run --name JupyterHub -d \
 -v $(pwd)/config:/etc/jupyterhub \
 -v $(pwd)/cert:/cert \
 -e USER_NOTEBOOK_DATA_DIR=/home/charlie/JupyterHub/UserNotebook \
--e JUPYTERHUB_URL=https://59.77.16.230:8000 \
+-e JUPYTERHUB_URL=https://jupyterhub.example.com \
 -p 8000:8000 \
-registry.gitlab.vankyle.cn/eric107/jupyter-docker/jupyterhub:latest; \
+registry.example.com/your-org/jupyter-docker/jupyterhub:latest; \
 docker logs -f JupyterHub
 ```
 

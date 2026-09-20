@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 372" width="880" height="372" role="img">
+  <style>
+    .txt   { fill: #334155; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .mono  { fill: #475569; font-family: ui-monospace,"Cascadia Mono",Consolas,monospace; }
+    .ink   { stroke: #475569; fill: none; }
+    .f-ink { fill: #475569; }
+    .muted { stroke: #94a3b8; fill: none; }
+    .box   { fill: #ffffff; stroke: #475569; stroke-width: 1.6; }
+    .hw    { fill: #94a3b8; fill-opacity: .18; stroke: #475569; stroke-width: 1.6; }
+    .krn   { fill: #94a3b8; fill-opacity: .10; stroke: #475569; stroke-width: 1.6; }
+    .guest { fill: #2f855a; fill-opacity: .13; stroke: #2f855a; stroke-width: 1.8; }
+    .f-gst { fill: #2f855a; }
+    .colbg { fill: #94a3b8; fill-opacity: .06; stroke: #cbd5e1; stroke-width: 1; }
+    @media (prefers-color-scheme: dark) {
+      .txt { fill: #cbd5e1; } .mono { fill: #cbd5e1; }
+      .ink { stroke: #cbd5e1; } .f-ink { fill: #cbd5e1; }
+      .muted { stroke: #64748b; }
+      .box  { fill: #111827; stroke: #cbd5e1; }
+      .hw   { fill: #64748b; fill-opacity: .30; stroke: #cbd5e1; }
+      .krn  { fill: #64748b; fill-opacity: .18; stroke: #cbd5e1; }
+      .guest { fill: #4ade80; fill-opacity: .16; stroke: #4ade80; }
+      .f-gst { fill: #4ade80; }
+      .colbg { fill: #64748b; fill-opacity: .10; stroke: #3f4a5a; }
+    }
+  </style>
+  <text x="440" y="32" class="txt" font-size="13" text-anchor="middle">同一台电脑的三种分层方式：左边是没有虚拟机的普通电脑，中间是 Type 1，右边是 Type 2</text>
+  <rect x="8" y="46" width="284" height="310" rx="12" class="colbg" />
+  <text x="150" y="64" class="txt" font-size="13" text-anchor="middle" font-weight="600">普通电脑</text>
+  <rect x="298" y="46" width="284" height="310" rx="12" class="colbg" />
+  <text x="440" y="64" class="txt" font-size="13" text-anchor="middle" font-weight="600">Type 1（跑在内核这一层）</text>
+  <rect x="588" y="46" width="284" height="310" rx="12" class="colbg" />
+  <text x="730" y="64" class="txt" font-size="13" text-anchor="middle" font-weight="600">Type 2（跑在应用程序这一层）</text>
+  <rect x="16" y="78" width="268" height="58" rx="8" class="box" />
+  <text x="150" y="105" class="txt" font-size="14" text-anchor="middle">应用程序</text>
+  <text x="150" y="123" class="mono" font-size="11" text-anchor="middle">Applications</text>
+  <rect x="16" y="148" width="268" height="58" rx="8" class="box" />
+  <text x="150" y="175" class="txt" font-size="14" text-anchor="middle">系统调用</text>
+  <text x="150" y="193" class="mono" font-size="11" text-anchor="middle">System call</text>
+  <rect x="16" y="218" width="268" height="58" rx="8" class="krn" />
+  <text x="150" y="245" class="txt" font-size="14" text-anchor="middle">系统内核</text>
+  <text x="150" y="263" class="mono" font-size="11" text-anchor="middle">Kernel</text>
+  <rect x="16" y="288" width="268" height="58" rx="8" class="hw" />
+  <text x="150" y="315" class="txt" font-size="14" text-anchor="middle">硬件</text>
+  <text x="150" y="333" class="mono" font-size="11" text-anchor="middle">Hardware</text>
+  <rect x="306" y="78" width="128" height="58" rx="8" class="box" />
+  <text x="370" y="105" class="txt" font-size="14" text-anchor="middle">管理程序</text>
+  <text x="370" y="123" class="mono" font-size="11" text-anchor="middle">Host</text>
+  <rect x="446" y="78" width="128" height="58" rx="8" class="guest" />
+  <text x="510" y="105" class="f-gst" font-size="14" text-anchor="middle">客户机</text>
+  <text x="510" y="123" class="mono" font-size="11" text-anchor="middle">Guest OS</text>
+  <rect x="306" y="148" width="268" height="128" rx="8" class="krn" />
+  <text x="440" y="210" class="txt" font-size="14" text-anchor="middle">Hypervisor（自带内核）</text>
+  <text x="440" y="228" class="mono" font-size="11" text-anchor="middle">Hyper-V / KVM / ESXi</text>
+  <rect x="306" y="288" width="268" height="58" rx="8" class="hw" />
+  <text x="440" y="315" class="txt" font-size="14" text-anchor="middle">硬件</text>
+  <text x="440" y="333" class="mono" font-size="11" text-anchor="middle">Hardware</text>
+  <rect x="736" y="78" width="128" height="58" rx="8" class="guest" />
+  <text x="800" y="105" class="f-gst" font-size="14" text-anchor="middle">客户机</text>
+  <text x="800" y="123" class="mono" font-size="11" text-anchor="middle">Guest OS</text>
+  <rect x="596" y="148" width="128" height="58" rx="8" class="box" />
+  <text x="660" y="175" class="txt" font-size="14" text-anchor="middle">其他应用程序</text>
+  <text x="660" y="193" class="mono" font-size="11" text-anchor="middle">QQ / 浏览器</text>
+  <rect x="736" y="148" width="128" height="58" rx="8" class="box" />
+  <text x="800" y="175" class="txt" font-size="14" text-anchor="middle">VirtualBox</text>
+  <text x="800" y="193" class="mono" font-size="11" text-anchor="middle">Application</text>
+  <rect x="596" y="218" width="268" height="58" rx="8" class="krn" />
+  <text x="730" y="245" class="txt" font-size="14" text-anchor="middle">主机操作系统</text>
+  <text x="730" y="263" class="mono" font-size="11" text-anchor="middle">Host OS + Kernel</text>
+  <rect x="596" y="288" width="268" height="58" rx="8" class="hw" />
+  <text x="730" y="315" class="txt" font-size="14" text-anchor="middle">硬件</text>
+  <text x="730" y="333" class="mono" font-size="11" text-anchor="middle">Hardware</text>
+</svg>

@@ -212,22 +212,40 @@ Timer A总共有四种工作模式，其中，向上，向上/向下都是需要
 
 ### Timer A 的输入捕获功能
 
-![image-20201123160813978](https://data-vankyle-1257862518.cos.ap-shanghai.myqcloud.com/image/Typora-auto/image-20201123160813978.png)
+捕获也好、比较也好、输出 PWM 也好, 配置项全都挤在同一个 16 位寄存器 `TAxCCTLn` 里 (每个 CCR 各有一个, 代码里就是 `TIMER_Ax->CCTL[n]`). 先把它的位域摆出来, 后面几节要用到的位全在这张表里:
 
-首先有个CCIS来选择捕获源，捕获源可以选择的有：
+**TAxCCTLn —— 捕获/比较控制寄存器**
 
-- CCI6A
-- CCI6B
-- GND
-- VCC
+| 位 | 字段 | 含义 | 取值 |
+| --- | --- | --- | --- |
+| 15-14 | **CM** | 捕获模式 (捕获哪种边沿) | `00` 不捕获 / `01` 上升沿 / `10` 下降沿 / `11` 双边沿 |
+| 13-12 | **CCIS** | 捕获源选择 | `00` CCInA / `01` CCInB / `10` GND / `11` VCC |
+| 11 | **SCS** | 捕获信号是否与定时器时钟同步 | `0` 异步 / `1` 同步 |
+| 10 | **SCCI** | 只读。比较相等时锁存下来的、同步后的输入电平 | — |
+| 9 | — | 保留 | — |
+| 8 | **CAP** | 工作模式 | `0` 比较模式 / `1` 捕获模式 |
+| 7-5 | **OUTMOD** | 输出模式，见下文 PWM 一节 | `000`–`111` |
+| 4 | **CCIE** | 该 CCR 的中断使能 | `0` 关 / `1` 开 |
+| 3 | **CCI** | 只读。当前输入信号的电平 | — |
+| 2 | **OUT** | OUTMOD=`000` 时直接决定输出引脚电平 | `0` 低 / `1` 高 |
+| 1 | **COV** | 捕获溢出标志 | `1` 表示上一次捕获还没读走就又来了一次 |
+| 0 | **CCIFG** | 中断标志 | 置位后**需要软件清零** |
 
-然后选择捕获模式，也就是CM寄存器：上边沿，下边沿，或者上下边沿都捕获
+> 数据来自 TI 官方 CMSIS 头文件 `msp432p401r.h` 中的 `TIMER_A_CCTLN_*` 宏定义, 与 SLAU356《MSP432P4xx Technical Reference Manual》Timer_A 章节一致。宏的命名规律是 `TIMER_A_CCTLN_<字段>_<取值>`, 例如 `TIMER_A_CCTLN_CM_1` 就是"上升沿捕获"(`0x4000`)。
 
-接下来选择时间同步模式，因为你想捕获的信号跟时钟信号有时候是不同步的，这个时候你需要一个东西来选择是否同步。 这个控制位是`SCS`. 如果你想读取同步过的信号,就读`SCCI`这个寄存器的值, 如果你不关心是否同步, 就读取`CCI`这个寄存器的值. 
+对着这张表, 捕获的配置顺序就很清楚了:
 
-如果一切顺利, 单片机正常捕获, 就会将捕获信号存储在 CCR 寄存器里面. 
+首先是 **CAP** 位——**要做捕获必须把它置 1**, 默认的 `0` 是比较模式, 这一步漏掉的话后面配什么都没用。
 
-有这么一种特殊情况, 如果CCR捕获之后还没来得及处理, 下一次捕获就又发生了, 这个时候CCR寄存器内捕获的内容会被冲刷掉, 但是会有一个标志位`COV`你可以读取到这个情况的发生. 
+然后是 **CCIS**, 选择捕获源。可选的有 `CCInA`、`CCInB`、`GND`、`VCC` 四个 (这里的 n 是 CCR 的编号, 比如 CCR2 对应的就是 CCI2A / CCI2B)。选 GND 和 VCC 看着奇怪, 但它可以用来在软件里手动制造一次捕获事件——把 CCIS 在 GND 和 VCC 之间切换, 就相当于给捕获电路送了一个边沿。
+
+接下来是 **CM**, 决定捕获哪种边沿: 上升沿、下降沿, 或者两个都要。测脉宽就用双边沿, 测周期用单边沿即可。
+
+再接下来是同步模式。你想捕获的信号跟定时器时钟通常是**不同步**的, 直接采可能会采到亚稳态, 所以 **SCS** 置 1 让捕获与时钟同步是推荐做法。相应地, 如果你想读同步过的电平就读 **SCCI**, 不关心同步就读 **CCI**。
+
+如果一切顺利, 捕获发生时 TAxR 的当前值会被存进 `CCR[n]`, 同时 **CCIFG** 置位。
+
+还有一种特殊情况: 如果 CCR 捕获之后还没来得及读走, 下一次捕获就又发生了, 那么 CCR 里的旧值会被冲掉。这时 **COV** 会置位, 你可以读到这个情况的发生。注意 **COV 不会自动清零, 必须软件清**, 否则后面就一直是 1 了。
 
 ### 利用定时器输出PWM
 
@@ -352,7 +370,31 @@ void TA2_0_IRQHandler(void)
 TIMER_A2->CCTL[3] = TIMER_A_CCTLN_OUTMOD_7; // CCR3 reset/set
 ```
 
-![image-20201214195838263](https://data-vankyle-1257862518.cos.ap-shanghai.myqcloud.com/image/Typora-auto/image-20201214195838263.png)
+这里的 `OUTMOD` 就是 `TAxCCTLn` 的第 7-5 位, 一共 8 种输出模式:
+
+**OUTMOD（TAxCCTLn 位 7-5）**
+
+| OUTMOD | 宏 | 模式 | 行为 |
+| --- | --- | --- | --- |
+| `000` | `TIMER_A_CCTLN_OUTMOD_0` | Output | 输出直接等于 `OUT` 位, 相当于软件直接控制引脚 |
+| `001` | `TIMER_A_CCTLN_OUTMOD_1` | Set | 计到 CCRn 时置 1, 然后一直保持 |
+| `010` | `TIMER_A_CCTLN_OUTMOD_2` | Toggle/Reset | 计到 CCRn 时翻转, 计到 CCR0 时清零 |
+| `011` | `TIMER_A_CCTLN_OUTMOD_3` | Set/Reset | 计到 CCRn 时置 1, 计到 CCR0 时清零 |
+| `100` | `TIMER_A_CCTLN_OUTMOD_4` | Toggle | 计到 CCRn 时翻转 |
+| `101` | `TIMER_A_CCTLN_OUTMOD_5` | Reset | 计到 CCRn 时清零, 然后一直保持 |
+| `110` | `TIMER_A_CCTLN_OUTMOD_6` | Toggle/Set | 计到 CCRn 时翻转, 计到 CCR0 时置 1 |
+| `111` | `TIMER_A_CCTLN_OUTMOD_7` | Reset/Set | 计到 CCRn 时清零, 计到 CCR0 时置 1 |
+
+关于这张表有两点要特别注意:
+
+- **模式 2、3、6、7 用在 `CCTL[0]` 上是没有意义的**。因为它们的行为同时依赖"计到 CCRn"和"计到 CCR0"两个事件, 而当 n = 0 时这俩是同一个事件, 结果就是输出不会按预期变化。所以 CCR0 通常只用来定周期, PWM 的占空比交给 CCR1–CCR6。
+- **向上模式下, OUTMOD_7 是做 PWM 最顺手的一个**: CCR0 定周期, CCRn 定占空比, 输出在计到 CCRn 时拉低、计到 CCR0 (即新周期开始) 时拉高, 于是
+
+  $$
+  \text{占空比} = 1 - \frac{\mathrm{CCR}n}{\mathrm{CCR}0 + 1}
+  $$
+
+  想要"CCRn 越大越亮"的直觉方向, 用 OUTMOD_3 (Set/Reset) 即可。
 
 然后你需要先给定时器设定一个初值, 语句如下:
 
@@ -369,7 +411,40 @@ TIMER_A2->CTL = TIMER_A_CTL_SSEL__SMCLK | TIMER_A_CTL_MC__UP | // Up mode
                        TIMER_A_CTL_CLR;                               // Clear
 ```
 
-![image-20201214195812209](https://data-vankyle-1257862518.cos.ap-shanghai.myqcloud.com/image/Typora-auto/image-20201214195812209.png)
+整个 Timer_A 的模式由 `TAxCTL` 这个 16 位寄存器决定:
+
+**TAxCTL —— Timer_A 控制寄存器**
+
+| 位 | 字段 | 含义 | 取值 |
+| --- | --- | --- | --- |
+| 15-10 | — | 保留 | — |
+| 9-8 | **TASSEL** | 时钟源选择 | `00` TAxCLK / `01` ACLK / `10` SMCLK / `11` INCLK |
+| 7-6 | **ID** | 输入分频 | `00` /1 / `01` /2 / `10` /4 / `11` /8 |
+| 5-4 | **MC** | 计数模式 | `00` 停止 / `01` 向上 (数到 CCR0) / `10` 连续 (数到 0FFFFh) / `11` 上下 (数到 CCR0 再数回 0) |
+| 3 | — | 保留 | — |
+| 2 | **TACLR** | 写 1 清零 TAxR、分频器和计数方向；**该位会自动归零** | — |
+| 1 | **TAIE** | 定时器溢出中断使能 | `0` 关 / `1` 开 |
+| 0 | **TAIFG** | 定时器溢出中断标志 | 需软件清零 |
+
+对应的宏是 `TIMER_A_CTL_*`。注意 TI 的头文件给同一个字段提供了两套写法: 带单下划线的按序号 (`TIMER_A_CTL_TASSEL_2`)、带双下划线的按语义 (`TIMER_A_CTL_SSEL__SMCLK`), 两者数值相同, 后者可读性更好, 推荐用后者。
+
+拿上面那行代码验算一下:
+
+```text
+TIMER_A_CTL_SSEL__SMCLK   = 0x0200   →  TASSEL = 10, 时钟源选 SMCLK
+TIMER_A_CTL_MC__UP        = 0x0010   →  MC     = 01, 向上计数到 CCR0
+TIMER_A_CTL_CLR           = 0x0004   →  TACLR  =  1, 立刻把计数器清零
+                          ─────────
+                   TAxCTL = 0x0214
+```
+
+注意这里用的是 `=` 而不是 `|=`, 所以 `TAIE` 被一并写成了 0——本例靠 CCR0 的中断工作, 不需要定时器溢出中断, 这样写没问题。但如果你是在已有配置上追加, 记得用 `|=`。
+
+另外, ID 最多只能分频到 /8。如果还不够慢, 还有一个 `TAxEX0` 寄存器的 `IDEX` 字段 (位 2-0) 可以再分 1–8 倍, 两级串起来最多 /64:
+
+```c
+TIMER_A2->EX0 = TIMER_A_EX0_IDEX__8;   // 与 ID 串联, 总分频可达 8 × 8 = 64
+```
 
 使能CCR中断
 
@@ -381,7 +456,14 @@ TIMER_A2->CCTL[0] &= ~TIMER_A_CCTLN_CCIFG;
 TIMER_A2->CCTL[0] = TIMER_A_CCTLN_CCIE;
 ```
 
-CCIE这个寄存器的数据表已经在上面了
+`CCIE` 和 `CCIFG` 都是 `TAxCCTLn` 里的位, 位置见前面那张 TAxCCTLn 位域表。
+
+这两行其实有点小问题: 第二行用的是 `=` 而不是 `|=`, 会把整个 `CCTL[0]` 覆盖掉——包括第一行刚清完的 `CCIFG`。也就是说第一行是白写的。正确的写法应该是:
+
+```c
+TIMER_A2->CCTL[0] &= ~TIMER_A_CCTLN_CCIFG;   // 清中断标志
+TIMER_A2->CCTL[0] |=  TIMER_A_CCTLN_CCIE;    // 使能中断, 保留其他位
+```
 
 其他全局中断的使能
 
@@ -400,3 +482,9 @@ SCB->SCR |= SCB_SCR_SLEEPONEXIT_Msk;
 中断什么时候被触发？
 
 当Timer_A跟CCR计时器里的值一样的时候
+
+### 参考
+
+- TI. *MSP432P4xx Microcontrollers Technical Reference Manual* (SLAU356), Chapter: Timer_A. <https://www.ti.com/lit/ug/slau356i/slau356i.pdf>
+- TI. *MSP432P401R Datasheet* (SLAS826). <https://www.ti.com/lit/ds/symlink/msp432p401r.pdf>
+- 本文位域表中的字段位置与取值取自 TI 官方 CMSIS 头文件 `msp432p401r.h` 里的 `TIMER_A_CTL_*`、`TIMER_A_CCTLN_*`、`TIMER_A_EX0_*` 宏定义

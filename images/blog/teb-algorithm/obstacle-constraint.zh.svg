@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 450" width="660" height="450" role="img" aria-label="TEB 按等时间间隔在全局路径上取控制点；落入障碍安全距离内的控制点被推到安全距离之外，整条局部轨迹像橡皮筋一样变形">
+  <title>障碍约束：控制点被“推开”</title>
+  <style>
+    .txt   { fill: #334155; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .ink   { stroke: #475569; fill: none; }
+    .f-ink { fill: #475569; }
+    .muted { stroke: #94a3b8; fill: none; }
+    .cand  { stroke: #94a3b8; fill: none; stroke-width: 1.5; }
+    .bad   { stroke: #d14343; fill: none; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .bad-s { stroke: #d14343; fill: none; stroke-width: 2.2; }
+    .f-bad { fill: #d14343; }
+    .hollow-bad { fill: #ffffff; fill-opacity: 0; stroke: #d14343; stroke-width: 1.8; stroke-dasharray: 3 3; }
+    .best  { stroke: #2f855a; fill: none; stroke-width: 3.2; }
+    .f-best{ fill: #2f855a; }
+    .obs   { fill: #d14343; fill-opacity: .16; stroke: #d14343; stroke-width: 1.6; }
+    .ring  { fill: none; stroke: #d14343; stroke-width: 1.3; stroke-dasharray: 5 4; }
+    .glob  { stroke: #5a63d8; fill: none; stroke-width: 2; stroke-dasharray: 7 5; }
+    .f-glob{ fill: #5a63d8; }
+    @media (prefers-color-scheme: dark) {
+      .txt { fill: #cbd5e1; }
+      .ink { stroke: #cbd5e1; } .f-ink { fill: #cbd5e1; }
+      .muted { stroke: #64748b; }
+      .cand { stroke: #6b7a8f; }
+      .bad, .bad-s { stroke: #f87171; } .f-bad { fill: #f87171; }
+      .hollow-bad { stroke: #f87171; }
+      .best { stroke: #4ade80; } .f-best { fill: #4ade80; }
+      .obs { fill: #f87171; fill-opacity: .2; stroke: #f87171; }
+      .ring { stroke: #f87171; }
+      .glob { stroke: #a5b4fc; } .f-glob { fill: #a5b4fc; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-ink" />
+    </marker>
+    <marker id="ah-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-bad" />
+    </marker>
+    <marker id="ah-best" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-best" />
+    </marker>
+  </defs>
+  <g>
+    <circle class="ring" cx="330" cy="280" r="100" />
+    <line x1="330" y1="280" x2="259.29" y2="350.71" class="muted" stroke-width="1.3" stroke-dasharray="4 3" />
+    <text class="txt" x="252" y="366" font-size="13" text-anchor="end">min_obstacle_dist</text>
+    <circle class="obs" cx="330" cy="280" r="26" />
+    <text class="txt" x="330" y="285" font-size="13" text-anchor="middle">障碍</text>
+
+    <polyline class="best" points="90,140.12 94,140.13 98,140.15 102,140.19 106,140.23 110,140.29 114,140.36 118,140.45 122,140.55 126,140.67 130,140.82 134,140.99 138,141.2 142,141.44 146,141.73 150,142.07 154,142.47 158,142.92 162,143.45 166,144.06 170,144.76 174,145.56 178,146.47 182,147.49 186,148.64 190,149.93 194,151.37 198,152.97 202,154.73 206,156.66 210,158.78 214,161.08 218,163.57 222,166.25 226,169.13 230,172.19 234,175.44 238,178.85 242,182.44 246,186.17 250,190.03 254,194 258,197.43 262,199.45 266,200.09 270,199.41 274,197.43 278,194.84 282,192.51 286,190.42 290,188.56 294,186.9 298,185.45 302,184.18 306,183.1 310,182.19 314,181.45 318,180.89 322,180.48 326,180.24 330,180.16 334,180.24 338,180.48 342,180.89 346,181.45 350,182.19 354,183.1 358,184.18 362,185.45 366,186.9 370,188.56 374,190.42 378,192.51 382,194.84 386,197.43 390,199.41 394,200.09 398,199.45 402,197.43 406,194 410,190.03 414,186.17 418,182.44 422,178.85 426,175.44 430,172.19 434,169.13 438,166.25 442,163.57 446,161.08 450,158.78 454,156.66 458,154.73 462,152.97 466,151.37 470,149.93 474,148.64 478,147.49 482,146.47 486,145.56 490,144.76 494,144.06 498,143.45 502,142.92 506,142.47 510,142.07 514,141.73 518,141.44 522,141.2 526,140.99 530,140.82 534,140.73 538,140.65" />
+    <line x1="94" y1="140.13" x2="116" y2="140.32" class="ink" stroke-width="1.6" marker-end="url(#ah)" />
+    <circle cx="94" cy="140.13" r="6.5" class="f-ink" />
+    <line x1="154" y1="142.47" x2="175.81" y2="145.37" class="ink" stroke-width="1.6" marker-end="url(#ah)" />
+    <circle cx="154" cy="142.47" r="6.5" class="f-ink" />
+    <line x1="210" y1="158.78" x2="228.67" y2="170.41" class="ink" stroke-width="1.6" marker-end="url(#ah)" />
+    <circle cx="210" cy="158.78" r="6.5" class="f-ink" />
+    <line x1="270" y1="199.41" x2="289.07" y2="188.45" class="ink" stroke-width="1.6" marker-end="url(#ah)" />
+    <circle cx="270" cy="199.41" r="6.5" class="f-ink" />
+    <line x1="390" y1="199.41" x2="411.71" y2="195.83" class="ink" stroke-width="1.6" marker-end="url(#ah)" />
+    <circle cx="390" cy="199.41" r="6.5" class="f-ink" />
+    <line x1="446" y1="161.08" x2="465.44" y2="150.79" class="ink" stroke-width="1.6" marker-end="url(#ah)" />
+    <circle cx="446" cy="161.08" r="6.5" class="f-ink" />
+    <line x1="506" y1="142.47" x2="527.92" y2="140.6" class="ink" stroke-width="1.6" marker-end="url(#ah)" />
+    <circle cx="506" cy="142.47" r="6.5" class="f-ink" />
+    <polyline class="glob" points="40,140 44,140 48,140.01 52,140.01 56,140.01 60,140.01 64,140.02 68,140.02 72,140.03 76,140.04 80,140.05 84,140.06 88,140.08 92,140.1 96,140.13 100,140.16 104,140.2 108,140.25 112,140.31 116,140.39 120,140.48 124,140.58 128,140.71 132,140.87 136,141.06 140,141.28 144,141.54 148,141.84 152,142.2 156,142.62 160,143.1 164,143.66 168,144.31 172,145.05 176,145.89 180,146.84 184,147.92 188,149.13 192,150.48 196,151.99 200,153.65 204,155.49 208,157.51 212,159.72 216,162.11 220,164.7 224,167.48 228,170.45 232,173.61 236,176.95 240,180.47 244,184.14 248,187.96 252,191.9 256,195.95 260,200.07 264,204.24 268,208.44 272,212.62 276,216.74 280,220.79 284,224.71 288,228.47 292,232.04 296,235.37 300,238.43 304,241.19 308,243.62 312,245.69 316,247.37 320,248.65 324,249.51 328,249.95 332,249.95 336,249.51 340,248.65 344,247.37 348,245.69 352,243.62 356,241.19 360,238.43 364,235.37 368,232.04 372,228.47 376,224.71 380,220.79 384,216.74 388,212.62 392,208.44 396,204.24 400,200.07 404,195.95 408,191.9 412,187.96 416,184.14 420,180.47 424,176.95 428,173.61 432,170.45 436,167.48 440,164.7 444,162.11 448,159.72 452,157.51 456,155.49 460,153.65 464,151.99 468,150.48 472,149.13 476,147.92 480,146.84 484,145.89 488,145.05 492,144.31 496,143.66 500,143.1 504,142.62 508,142.2 512,141.84 516,141.54 520,141.28 524,141.06 528,140.87 532,140.71 536,140.58 540,140.48 544,140.39 548,140.31 552,140.25 556,140.2 560,140.16 564,140.13 568,140.1 572,140.08 576,140.06 580,140.05 584,140.04 588,140.03 592,140.02 596,140.02 600,140.01 604,140.01 608,140.01 612,140.01 616,140 620,140 624,140 628,140 632,140 636,140 640,140" />
+
+    <circle cx="330" cy="250" r="6.5" class="hollow-bad" />
+    <line x1="330" y1="239" x2="330" y2="193.16" class="bad-s" marker-end="url(#ah-bad)" />
+    <line x1="330" y1="180.16" x2="351.96" y2="181.49" class="ink" stroke-width="1.6" marker-end="url(#ah)" />
+    <circle cx="330" cy="180.16" r="6.5" class="f-best" />
+
+    <g transform="translate(26,404)">
+      <line class="best" x1="0" y1="0" x2="34" y2="0" />
+      <text class="txt" x="44" y="5" font-size="14">弹性带（局部轨迹，只覆盖前方一小段）</text>
+      <line class="glob" x1="0" y1="26" x2="34" y2="26" />
+      <text class="txt" x="44" y="31" font-size="14">全局路径</text>
+      <circle class="f-ink" cx="402" cy="0" r="6.5" />
+      <text class="txt" x="419" y="5" font-size="14">控制点（位姿）</text>
+      <circle class="hollow-bad" cx="402" cy="26" r="6.5" />
+      <text class="txt" x="419" y="31" font-size="14">被推开前的原位置</text>
+    </g>
+  </g>
+</svg>

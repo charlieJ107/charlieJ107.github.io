@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 468" width="880" height="468" role="img" aria-label="JupyterHub 的请求流程：浏览器的请求先到 HTTP Proxy，未登录的请求被代理给 Hub，Hub 通过 Authenticator 跳转到 OAuth 服务商完成授权，再由 Spawner 启动该用户的容器并把路由写回 Proxy，此后流量由 Proxy 直接代理到用户容器，不再经过 Hub">
+  <title>JupyterHub 的请求流程</title>
+  <style>
+    .txt   { fill: #334155; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .txt-w { fill: #ffffff; font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .mono  { fill: #475569; font-family: ui-monospace,"Cascadia Mono",Consolas,monospace; }
+    .ink   { stroke: #475569; fill: none; }
+    .f-ink { fill: #475569; }
+    .muted { stroke: #94a3b8; fill: none; }
+    .grid  { stroke: #cbd5e1; fill: none; stroke-width: 1; }
+    .wall  { fill: #475569; }
+    .box   { fill: #ffffff; stroke: #475569; stroke-width: 1.5; }
+    .box-a { fill: #2f855a; fill-opacity: .12; stroke: #2f855a; stroke-width: 1.6; }
+    .box-b { fill: #5a63d8; fill-opacity: .12; stroke: #5a63d8; stroke-width: 1.6; }
+    .box-o { fill: #94a3b8; fill-opacity: .14; stroke: #94a3b8; stroke-width: 1.4; }
+    .dij   { fill: #5a63d8; fill-opacity: .22; }
+    .ast   { fill: #2f855a; fill-opacity: .24; }
+    .open  { fill: #e0a02c; fill-opacity: .3; }
+    .bad   { stroke: #d14343; fill: none; stroke-width: 2; }
+    .f-bad { fill: #d14343; }
+    .best  { stroke: #2f855a; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .f-best{ fill: #2f855a; }
+    .glob  { stroke: #5a63d8; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .f-glob{ fill: #5a63d8; }
+    .dash  { stroke: #d14343; fill: none; stroke-width: 2; stroke-dasharray: 6 4; }
+    .p1    { stroke: #2f855a; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .p2    { stroke: #5a63d8; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .p3    { stroke: #e0a02c; fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+    .f-p3  { fill: #e0a02c; }
+    @media (prefers-color-scheme: dark) {
+      .txt { fill: #cbd5e1; } .txt-w { fill: #0b1220; } .mono { fill: #cbd5e1; }
+      .ink { stroke: #cbd5e1; } .f-ink { fill: #cbd5e1; }
+      .muted { stroke: #64748b; }
+      .grid { stroke: #3f4a5a; }
+      .wall { fill: #8496ad; }
+      .box  { fill: #111827; stroke: #cbd5e1; }
+      .box-a { fill: #4ade80; fill-opacity: .16; stroke: #4ade80; }
+      .box-b { fill: #a5b4fc; fill-opacity: .16; stroke: #a5b4fc; }
+      .box-o { fill: #64748b; fill-opacity: .2; stroke: #94a3b8; }
+      .dij  { fill: #a5b4fc; fill-opacity: .26; }
+      .ast  { fill: #4ade80; fill-opacity: .26; }
+      .open { fill: #fbbf24; fill-opacity: .3; }
+      .bad  { stroke: #f87171; } .f-bad { fill: #f87171; }
+      .best { stroke: #4ade80; } .f-best { fill: #4ade80; }
+      .glob { stroke: #a5b4fc; } .f-glob { fill: #a5b4fc; }
+      .dash { stroke: #f87171; }
+      .p1 { stroke: #4ade80; } .p2 { stroke: #a5b4fc; } .p3 { stroke: #fbbf24; } .f-p3 { fill: #fbbf24; }
+    }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-ink" />
+    </marker>
+    <marker id="ah-best" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="f-best" />
+    </marker>
+  </defs>
+  <g>
+    <rect x="396" y="126" width="200" height="168" rx="10" class="box" stroke-dasharray="6 4" />
+    <text class="txt" x="496" y="150" font-size="15" text-anchor="middle" font-weight="600">Jupyter Hub</text>
+    <rect x="24" y="176" width="130" height="64" rx="8" class="box" />
+    <text class="txt" x="89" y="213" font-size="14" text-anchor="middle">用户浏览器</text>
+    <rect x="186" y="176" width="158" height="64" rx="8" class="box-o" />
+    <text class="txt" x="265" y="206" font-size="14" text-anchor="middle">HTTP Proxy</text>
+    <text class="mono" x="265" y="224" font-size="10" text-anchor="middle">configurable-http-proxy</text>
+    <rect x="402" y="26" width="190" height="52" rx="8" class="box-b" />
+    <text class="txt" x="497" y="50" font-size="14" text-anchor="middle">OAuth 服务商</text>
+    <text class="mono" x="497" y="68" font-size="10" text-anchor="middle">GitLab / GitHub …</text>
+    <rect x="412" y="168" width="168" height="44" rx="8" class="box-b" />
+    <text class="txt" x="496" y="195" font-size="14" text-anchor="middle">Authenticator</text>
+    <rect x="412" y="230" width="168" height="44" rx="8" class="box-b" />
+    <text class="txt" x="496" y="257" font-size="14" text-anchor="middle">Spawner</text>
+    <rect x="654" y="118" width="200" height="46" rx="8" class="box-a" />
+    <text class="txt" x="754" y="146" font-size="14" text-anchor="middle">用户容器 alice</text>
+    <rect x="654" y="180" width="200" height="46" rx="8" class="box-a" />
+    <text class="txt" x="754" y="208" font-size="14" text-anchor="middle">用户容器 bob</text>
+    <rect x="654" y="242" width="200" height="46" rx="8" class="box-a" />
+    <text class="txt" x="754" y="270" font-size="14" text-anchor="middle">用户容器 …</text>
+    <line x1="154" y1="208" x2="182" y2="208" class="ink" stroke-width="1.7" marker-end="url(#ah)" />
+    <circle cx="175" cy="208" r="10" class="f-ink" />
+    <text class="txt-w" x="175" y="212.5" font-size="12" text-anchor="middle">①</text>
+    <line x1="344" y1="196" x2="392" y2="196" class="ink" stroke-width="1.7" marker-end="url(#ah)" />
+    <circle cx="368" cy="196" r="10" class="f-ink" />
+    <text class="txt-w" x="368" y="200.5" font-size="12" text-anchor="middle">②</text>
+    <line x1="392" y1="224" x2="344" y2="224" class="ink" stroke-width="1.7" marker-end="url(#ah)" />
+    <circle cx="368" cy="224" r="10" class="f-ink" />
+    <text class="txt-w" x="368" y="228.5" font-size="12" text-anchor="middle">⑤</text>
+    <line x1="496" y1="126" x2="496" y2="82" class="ink" stroke-width="1.7" marker-end="url(#ah)" marker-start="url(#ah)" />
+    <circle cx="496" cy="104" r="10" class="f-ink" />
+    <text class="txt-w" x="496" y="108.5" font-size="12" text-anchor="middle">③</text>
+    <line x1="596" y1="252" x2="650" y2="252" class="ink" stroke-width="1.7" marker-end="url(#ah)" />
+    <circle cx="625" cy="252" r="10" class="f-ink" />
+    <text class="txt-w" x="625" y="256.5" font-size="12" text-anchor="middle">④</text>
+    <polyline points="266,244 266,344 754,344 754,292" class="ink" stroke-width="1.7" fill="none" marker-end="url(#ah)" />
+    <circle cx="500" cy="344" r="10" class="f-ink" />
+    <text class="txt-w" x="500" y="348.5" font-size="12" text-anchor="middle">⑥</text>
+    <text class="txt" x="40" y="386" font-size="13">①  浏览器发起请求</text>
+    <text class="txt" x="470" y="386" font-size="13">④  Spawner 启动 / 复用用户容器</text>
+    <text class="txt" x="40" y="410" font-size="13">②  未登录 → 代理给 Hub</text>
+    <text class="txt" x="470" y="410" font-size="13">⑤  Hub 把新路由写回 Proxy</text>
+    <text class="txt" x="40" y="434" font-size="13">③  跳转 OAuth 服务商完成授权</text>
+    <text class="txt" x="470" y="434" font-size="13">⑥  此后流量由 Proxy 直连用户容器</text>
+  </g>
+</svg>
