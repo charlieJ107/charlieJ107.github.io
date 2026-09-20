@@ -9,9 +9,9 @@ badges: [AI Avatar, Harness, Context Engine]
 tags: [AI, Avatar, Memory, TypeScript]
 ---
 
-AI.Zhuoling.Space is one of my most important personal projects and part of my exploration of social presence in AI Avatars. I want interactions to feel like spending time with an entity whose identity persists, which remembers shared experiences and can work alongside you.
+AI.Zhuoling.Space explores social presence in AI Avatars: supporting continuity in interaction through persistent identity, memories of shared experiences and the ability to work together.
 
-I am building a custom harness and context engine around the models to support that continuity. The harness coordinates tools, execution and results. The context engine prepares identity, history and relevant memories for each turn.
+The project uses a custom harness and context engine around the models to support that continuity. The harness coordinates tools, execution and results. The context engine prepares identity, history and relevant memories for each turn.
 
 ## Identity, expression and memory
 
@@ -27,6 +27,6 @@ The project uses TypeScript, React and Hono, with PostgreSQL for application sta
 
 ## Continuing the exploration
 
-The current product organizes interaction into sessions and implements identity configuration, memory retrieval and context preparation. A continuous stream for each Avatar and topic-sensitive Persona switching remain future directions. Social presence is the experience I hope to develop through sustained interaction.
+The current product organizes interaction into sessions and implements identity configuration, memory retrieval and context preparation. A continuous stream for each Avatar and topic-sensitive Persona switching remain future directions. Social presence is an experiential goal to be evaluated and refined through sustained interaction.
 
 Try the service below, or read the [design essay](/blogs/ai-avatar-social-presence/) and [context architecture notes](/projects/ai-avatar/docs/context-and-memory/).

@@ -11,7 +11,7 @@ tags: [Android, SMB, NAS, Backup]
 
 A video recorded on a phone may encounter a Wi-Fi switch, the end of a background time slice, process termination or a full destination disk before reaching a NAS. FileAccess starts from these everyday conditions: a task needs enough durable information for its next execution to know where to continue and how to verify the final file.
 
-FileAccess is my native Android file client for personal NAS storage. The current v0.1.0 development preview focuses on SMB, with browsing, media previews, uploads, downloads and incremental photo and video backup.
+FileAccess is a native Android file client for personal NAS storage. The current v0.1.0 development preview focuses on SMB, with browsing, media previews, uploads, downloads and incremental photo and video backup.
 
 ## Keep tasks beyond the lifetime of a process
 
