@@ -58,7 +58,7 @@
     <text class="txt" x="548.14" y="125.41" font-size="14" text-anchor="middle">Local goal</text>
     <g transform="translate(26,348)">
       <line class="cand" x1="0" y1="0" x2="34" y2="0" />
-      <text class="txt" x="44" y="5" font-size="14">Candidate trajectories: each (v, ω) rolled out for T seconds</text>
+      <text class="txt" x="44" y="5" font-size="14">Candidates: each (v, ω) over T seconds</text>
       <line class="bad" x1="0" y1="26" x2="34" y2="26" />
       <text class="txt" x="44" y="31" font-size="14">Collides — discarded</text>
       <line class="best" x1="330" y1="0" x2="364" y2="0" />

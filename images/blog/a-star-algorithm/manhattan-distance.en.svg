@@ -83,9 +83,9 @@
       <line x1="0" y1="42" x2="230" y2="42" class="muted" stroke-width="1.2" />
       <text class="txt" x="0" y="66" font-size="14" font-weight="600">Manhattan distance = 4 + 3 = 7</text>
       <text class="txt" x="0" y="96" font-size="13">The three routes differ,</text>
-      <text class="txt" x="0" y="116" font-size="13">but all take 7 steps — as long as you never backtrack,</text>
+      <text class="txt" x="0" y="116" font-size="13">but all take 7 steps — if you never backtrack,</text>
       <text class="txt" x="0" y="136" font-size="13">the count does not depend on how you zigzag.</text>
-      <text class="txt" x="0" y="166" font-size="13">Two subtractions and one addition, no square root —</text>
+      <text class="txt" x="0" y="166" font-size="13">Two subtractions, one addition, no square root —</text>
       <text class="txt" x="0" y="186" font-size="13">that is where it beats Euclidean distance.</text>
     </g>
   </g>

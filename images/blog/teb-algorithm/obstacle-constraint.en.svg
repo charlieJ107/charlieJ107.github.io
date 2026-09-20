@@ -71,7 +71,7 @@
 
     <g transform="translate(26,404)">
       <line class="best" x1="0" y1="0" x2="34" y2="0" />
-      <text class="txt" x="44" y="5" font-size="14">Elastic band (local trajectory, covering only the road ahead)</text>
+      <text class="txt" x="44" y="5" font-size="14">Elastic band (local trajectory, the road ahead only)</text>
       <line class="glob" x1="0" y1="26" x2="34" y2="26" />
       <text class="txt" x="44" y="31" font-size="14">Global path</text>
       <circle class="f-ink" cx="402" cy="0" r="6.5" />
