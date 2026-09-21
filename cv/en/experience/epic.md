@@ -2,12 +2,12 @@
 draft: false
 type: "experience"
 title: "Beijing EPIK Education Technology Co., Ltd."
-role: "Regional Director"
-location: "Guangxi/Fujian China"
+role: "Regional Marketing Lead"
+location: "Fujian & Guangxi, China"
 startDate: "2018-11"
 endDate: "2020-02"
 ---
- - Responsible for regional marketing operation and the maintenance of consumer market in Fujian & Guangxi
- - Participated in/independently completed the planning and organization of multiple large-scale local activities
- - Responsible for the background data processing and analysis of the challenge
- - Participated in the product design and development of the next generation exchange system
+- Led consumer marketing and community operations for the Fujian and Guangxi regions
+- Planned and ran multiple large-scale regional events, serving thousands of students
+- Owned event data processing and analysis (cleaning, analysis, visualisation) to support operational decisions
+- Contributed to the product design and development of the next-generation exchange system

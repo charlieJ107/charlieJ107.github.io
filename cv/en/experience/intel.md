@@ -2,11 +2,11 @@
 draft: false
 type: "experience"
 title: "Intel Asia-Pacific Research & Development Ltd."
-rolesubtitle: "Deep Learning Software Intern"
-department: "Machine Learning Platform"
+subtitle: "BigDL Team"
+role: "Deep Learning Software Intern"
 location: "Shanghai, China"
 startDate: "2021-06"
-endDate: "2022-02"
+endDate: "2022-01"
 ---
-- Participated in the project development of BigDL 2.0 
-- Assisted in the research and development as well as testing of Analytics-zoo
+- Contributed to BigDL 2.0, delivering up to 6× throughput improvement for PyTorch/TensorFlow workloads on Intel hardware
+- Assisted in the research, development and testing of Analytics Zoo
