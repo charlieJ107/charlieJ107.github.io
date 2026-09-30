@@ -9,3 +9,5 @@ badges: ["Unreal Engine", "MetaHuman"]
 ---
 - 基于 Control Rig 的 Unreal Engine 插件，用自然语言控制 MetaHuman 的表演
 - 分析了语言驱动表演控制的常见失败模式
+
+[项目介绍与 XR Network+ 研讨会](/zh/projects/xr-nl-performance/)

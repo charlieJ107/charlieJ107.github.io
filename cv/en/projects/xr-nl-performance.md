@@ -9,3 +9,5 @@ badges: ["Unreal Engine", "MetaHuman"]
 ---
 - Unreal Engine plugin for controlling MetaHuman performances from natural language via Control Rig
 - Analysed common failure modes of language-driven performance control
+
+[Project overview and XR Network+ seminar](/projects/xr-nl-performance/)
